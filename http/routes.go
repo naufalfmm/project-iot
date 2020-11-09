@@ -1,7 +1,10 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
+	"github.com/naufalfmm/project-iot/common/defaultResp"
 	"github.com/naufalfmm/project-iot/common/login"
 	"github.com/naufalfmm/project-iot/resource"
 )
@@ -19,4 +22,8 @@ func (r *Routes) Register(e *echo.Echo) {
 
 	node := e.Group("/node", login.EchoMiddleware(r.Resource.Jwt))
 	node.POST("", r.Controllers.Node.Create)
+
+	e.GET("/", func(ctx echo.Context) error {
+		return ctx.JSON(http.StatusOK, defaultResp.CreateSuccessResp(http.StatusOK, r.Resource.Config.ServerName))
+	})
 }

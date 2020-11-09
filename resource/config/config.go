@@ -10,8 +10,8 @@ import (
 )
 
 type EnvConfig struct {
-	ServiceName string `envconfig:"SERVICE_NAME" required:"true"`
-	ServerPort  int    `envconfig:"SERVER_PORT" default:"7010" required:"true"`
+	ServerName string `envconfig:"SERVER_NAME" required:"true"`
+	ServerPort int    `envconfig:"SERVER_PORT" default:"7010" required:"true"`
 
 	PostgresDbURI             string        `envconfig:"POSTGRES_DB_URI" required:"true"`
 	PostgresMaxIdleConnection int           `envconfig:"POSTGRES_MAX_IDLE_CONNECTION" default:"10"`

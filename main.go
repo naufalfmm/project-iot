@@ -54,6 +54,7 @@ func main() {
 
 	routes := httpRest.Routes{
 		Controllers: controllers,
+		Resource:    resource,
 	}
 
 	e := echo.New()
