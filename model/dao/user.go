@@ -23,3 +23,22 @@ func (User) TableName() string {
 func (u User) ToResponseDTO() userDTO.ResponseDTO {
 	return userDTO.ResponseDTO(u)
 }
+
+func (u User) ToSignUpResponseDTO() userDTO.SignUpResponseDTO {
+	return userDTO.SignUpResponseDTO{
+		ID:        u.ID,
+		Username:  u.Username,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
+	}
+}
+
+func NewUserFromSignUpRequestDTO(sur userDTO.SignUpRequestDTO) User {
+	now := time.Now()
+
+	return User{
+		Username:  sur.Username,
+		Password:  sur.Password,
+		CreatedAt: now,
+	}
+}

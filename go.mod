@@ -12,6 +12,7 @@ require (
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.3 // indirect
 	github.com/pkg/errors v0.9.1
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	gorm.io/driver/postgres v1.0.5
 	gorm.io/gorm v1.20.5
 )
