@@ -59,12 +59,12 @@ func EchoMiddleware(j jwt.JWT) echo.MiddlewareFunc {
 			tokenString = strings.Replace(tokenString, "Bearer ", "", -1)
 
 			if tokenString == "" {
-				return echo.NewHTTPError(http.StatusBadRequest, consts.Unauthorized)
+				return echo.NewHTTPError(http.StatusUnauthorized, consts.Unauthorized.Error())
 			}
 
 			clientDTO, err := DecodeToken(j, tokenString)
 			if err != nil {
-				return echo.NewHTTPError(http.StatusBadRequest, err)
+				return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 			}
 
 			ctx.Set(consts.UserLoginKey, clientDTO)

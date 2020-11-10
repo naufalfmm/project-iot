@@ -23,6 +23,10 @@ func (r *Routes) Register(e *echo.Echo) {
 	node := e.Group("/node", login.EchoMiddleware(r.Resource.Jwt))
 	node.POST("", r.Controllers.Node.Create)
 
+	user := e.Group("/user")
+	user.POST("/login", r.Controllers.User.SignIn)
+	user.POST("/signup", r.Controllers.User.SignUp, login.EchoMiddleware(r.Resource.Jwt))
+
 	e.GET("/", func(ctx echo.Context) error {
 		return ctx.JSON(http.StatusOK, defaultResp.CreateSuccessResp(http.StatusOK, r.Resource.Config.ServerName))
 	})
