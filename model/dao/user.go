@@ -8,7 +8,7 @@ import (
 
 type (
 	User struct {
-		ID        uint64     `gorm:"PRIMARY_KEY`
+		ID        uint64     `gorm:"primaryKey;autoIncrement"`
 		Username  string     `gorm:"not null"`
 		Password  string     `gorm:"not null"`
 		CreatedAt time.Time  `gorm:"not null"`
