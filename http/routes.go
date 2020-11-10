@@ -24,7 +24,7 @@ func (r *Routes) Register(e *echo.Echo) {
 	node.POST("", r.Controllers.Node.Create)
 
 	user := e.Group("/user")
-	user.POST("/login", r.Controllers.User.SignIn)
+	user.POST("/signin", r.Controllers.User.SignIn)
 	user.POST("/signup", r.Controllers.User.SignUp, login.EchoMiddleware(r.Resource.Jwt))
 
 	e.GET("/", func(ctx echo.Context) error {
