@@ -26,14 +26,9 @@ type ClientJWTDTO struct {
 func DecodeToken(j jwt.JWT, token string) (ClientJWTDTO, error) {
 	var clientClaims ClientClaims
 
-	claims, err := j.Parse(token, &clientClaims)
+	_, err := j.Parse(token, &clientClaims)
 	if err != nil {
 		return ClientJWTDTO{}, err
-	}
-
-	clientClaims, ok := claims.(ClientClaims)
-	if !ok {
-		return ClientJWTDTO{}, consts.WrongClaimsFormat
 	}
 
 	return clientClaims.Data, nil
