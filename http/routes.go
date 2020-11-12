@@ -28,6 +28,6 @@ func (r *Routes) Register(e *echo.Echo) {
 	user.POST("/signup", r.Controllers.User.SignUp, login.EchoMiddleware(r.Resource.Jwt))
 
 	e.GET("/", func(ctx echo.Context) error {
-		return ctx.JSON(http.StatusOK, defaultResp.CreateSuccessResp(http.StatusOK, r.Resource.Config.ServerName))
+		return defaultResp.CreateSuccessResp(ctx, http.StatusOK, r.Resource.Config.ServerName)
 	})
 }

@@ -5,6 +5,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/naufalfmm/project-iot/common/defaultResp"
+
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/consts"
@@ -59,12 +61,12 @@ func EchoMiddleware(j jwt.JWT) echo.MiddlewareFunc {
 			tokenString = strings.Replace(tokenString, "Bearer ", "", -1)
 
 			if tokenString == "" {
-				return echo.NewHTTPError(http.StatusUnauthorized, consts.Unauthorized.Error())
+				return defaultResp.CreateErrorResp(ctx, http.StatusUnauthorized, consts.Unauthorized.Error())
 			}
 
 			clientDTO, err := DecodeToken(j, tokenString)
 			if err != nil {
-				return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+				return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 			}
 
 			ctx.Set(consts.UserLoginKey, clientDTO)

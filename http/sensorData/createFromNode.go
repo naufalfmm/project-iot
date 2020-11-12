@@ -14,26 +14,26 @@ import (
 	sensorDataDTO "github.com/naufalfmm/project-iot/model/dto/sensorData"
 )
 
-func (c *Controller) CreateFromNode(e echo.Context) error {
-	req, err := c.paramBind(e)
+func (c *Controller) CreateFromNode(ctx echo.Context) error {
+	req, err := c.paramBind(ctx)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
-	err = e.Validate(req)
+	err = ctx.Validate(req)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
-	resp, err := c.SensorData.PostFromNode(e, req)
+	resp, err := c.SensorData.PostFromNode(ctx, req)
 	if err != nil {
 		if errors.Is(err, consts.Unauthorized) {
-			return echo.NewHTTPError(http.StatusUnauthorized, err)
+			return defaultResp.CreateErrorResp(ctx, http.StatusUnauthorized, consts.Unauthorized.Error())
 		}
 		return echo.NewHTTPError(http.StatusInternalServerError, err)
 	}
 
-	return e.JSON(http.StatusCreated, defaultResp.CreateSuccessResp(http.StatusCreated, resp))
+	return defaultResp.CreateSuccessResp(ctx, http.StatusCreated, resp)
 }
 
 func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeRequestDTO, error) {

@@ -17,22 +17,22 @@ func (c *Controller) SignIn(ctx echo.Context) error {
 
 	err := ctx.Bind(&signinReq)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
 	err = ctx.Validate(signinReq)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
 	resp, err := c.User.SignIn(ctx, signinReq)
 	if err != nil {
 		if errors.Is(err, consts.Unauthorized) {
-			return echo.NewHTTPError(http.StatusUnauthorized, consts.Unauthorized.Error())
+			return defaultResp.CreateErrorResp(ctx, http.StatusUnauthorized, consts.Unauthorized.Error())
 		}
 
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
 	}
 
-	return ctx.JSON(http.StatusOK, defaultResp.CreateSuccessResp(http.StatusOK, resp))
+	return defaultResp.CreateSuccessResp(ctx, http.StatusOK, resp)
 }

@@ -13,15 +13,15 @@ func (c *Controller) Create(ctx echo.Context) error {
 	var bodyReq nodeDTO.CreateRequestBodyDTO
 
 	if err := ctx.Bind(&bodyReq); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 	if err := ctx.Validate(&bodyReq); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
 	loginData, err := c.getCurrentLogin(ctx)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
 	}
 
 	createReq := nodeDTO.CreateRequestDTO{
@@ -31,8 +31,8 @@ func (c *Controller) Create(ctx echo.Context) error {
 
 	resp, err := c.Node.Create(ctx, createReq)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err)
+		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
 	}
 
-	return ctx.JSON(http.StatusCreated, defaultResp.CreateSuccessResp(http.StatusCreated, resp))
+	return defaultResp.CreateSuccessResp(ctx, http.StatusCreated, resp)
 }
