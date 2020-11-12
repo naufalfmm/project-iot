@@ -33,6 +33,15 @@ func (u User) ToSignUpResponseDTO() userDTO.SignUpResponseDTO {
 	}
 }
 
+func (u User) ToSignInResponseDTO() userDTO.SignInResponseDTO {
+	return userDTO.SignInResponseDTO{
+		ID:        u.ID,
+		Username:  u.Username,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt,
+	}
+}
+
 func NewUserFromSignUpRequestDTO(sur userDTO.SignUpRequestDTO) User {
 	now := time.Now()
 

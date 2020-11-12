@@ -9,7 +9,7 @@ import (
 
 type (
 	Handler interface {
-		SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.ResponseDTO, error)
+		SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.SignInTokenResponseDTO, error)
 		SignUp(ctx echo.Context, req userDTO.SignUpRequestDTO) (userDTO.SignUpTokenResponseDTO, error)
 	}
 	handler struct {

@@ -23,8 +23,5 @@ func (h *handler) SignUp(ctx echo.Context, req userDTO.SignUpRequestDTO) (userDT
 		return userDTO.SignUpTokenResponseDTO{}, err
 	}
 
-	return userDTO.SignUpTokenResponseDTO{
-		Token: jwtToken,
-		User:  newUser,
-	}, nil
+	return newUser.ToSignUpTokenResponseDTO(jwtToken), nil
 }

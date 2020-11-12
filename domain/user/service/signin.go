@@ -13,7 +13,7 @@ import (
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 )
 
-func (s *service) SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.ResponseDTO, error) {
+func (s *service) SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.SignInResponseDTO, error) {
 	whereUser := dao.User{
 		Username: signInData.Username,
 	}
@@ -21,20 +21,20 @@ func (s *service) SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) 
 	userData, err := s.repository.Get(ctx, whereUser)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return userDTO.ResponseDTO{}, consts.Unauthorized
+			return userDTO.SignInResponseDTO{}, consts.Unauthorized
 		}
 
-		return userDTO.ResponseDTO{}, err
+		return userDTO.SignInResponseDTO{}, err
 	}
 
 	valid, err := password.Verify(userData.Password, signInData.Password)
 	if err != nil {
-		return userDTO.ResponseDTO{}, err
+		return userDTO.SignInResponseDTO{}, err
 	}
 
 	if !valid {
-		return userDTO.ResponseDTO{}, consts.Unauthorized
+		return userDTO.SignInResponseDTO{}, consts.Unauthorized
 	}
 
-	return userData.ToResponseDTO(), nil
+	return userData.ToSignInResponseDTO(), nil
 }

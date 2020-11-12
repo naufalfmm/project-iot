@@ -9,7 +9,7 @@ import (
 
 type (
 	Service interface {
-		SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.ResponseDTO, error)
+		SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.SignInResponseDTO, error)
 		SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (userDTO.SignUpResponseDTO, error)
 	}
 

@@ -10,8 +10,8 @@ func (r *repository) Get(ctx echo.Context, whereQuery dao.User) (dao.User, error
 
 	err := r.resource.DB.First(&userData, whereQuery).Error
 	if err != nil {
-		return dao.User{}, nil
+		return dao.User{}, err
 	}
 
-	return userData, err
+	return userData, nil
 }

@@ -12,7 +12,7 @@ import (
 )
 
 type ClientClaims struct {
-	*jwtGo.StandardClaims
+	jwtGo.StandardClaims
 	Data ClientJWTDTO `json:"data"`
 }
 
@@ -41,7 +41,7 @@ func CreateToken(j jwt.JWT, data ClientJWTDTO, exp time.Duration) (string, error
 	issuedAt := time.Now()
 
 	clientClaims := ClientClaims{
-		&jwtGo.StandardClaims{
+		jwtGo.StandardClaims{
 			IssuedAt:  issuedAt.Unix(),
 			ExpiresAt: issuedAt.Add(exp).Unix(),
 		},

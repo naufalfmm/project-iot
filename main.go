@@ -10,6 +10,8 @@ import (
 	"github.com/naufalfmm/project-iot/resource/config"
 	"github.com/naufalfmm/project-iot/resource/jwt"
 	sql "github.com/naufalfmm/project-iot/resource/sql"
+	"github.com/naufalfmm/project-iot/resource/validator"
+	vv9 "gopkg.in/go-playground/validator.v9"
 
 	sensorDataRepo "github.com/naufalfmm/project-iot/domain/sensorData/repository"
 	sensorDataServ "github.com/naufalfmm/project-iot/domain/sensorData/service"
@@ -46,7 +48,14 @@ func main() {
 		panic(err)
 	}
 
-	resource := resource.New(conf, db, jwt)
+	validatorGo := vv9.New()
+
+	validator, err := validator.New(validatorGo)
+	if err != nil {
+		panic(err)
+	}
+
+	resource := resource.New(conf, db, jwt, &validator)
 
 	sensorDataRepoNew, _ := sensorDataRepo.New(resource)
 	sensorDataServNew, _ := sensorDataServ.New(resource, sensorDataRepoNew)
@@ -97,6 +106,7 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Validator = resource.Validator
 
 	routes.Register(e)
 
