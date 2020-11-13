@@ -1,7 +1,10 @@
 package node
 
 import (
+	"errors"
 	"net/http"
+
+	"github.com/naufalfmm/project-iot/common/consts"
 
 	"github.com/labstack/echo/v4"
 
@@ -31,6 +34,9 @@ func (c *Controller) Create(ctx echo.Context) error {
 
 	resp, err := c.Node.Create(ctx, createReq)
 	if err != nil {
+		if errors.Is(err, consts.UniqueError) {
+			return defaultResp.CreateErrorResp(ctx, http.StatusConflict, err.Error())
+		}
 		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
 	}
 

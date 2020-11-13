@@ -6,9 +6,9 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/jackc/pgconn v1.7.2
 	github.com/joho/godotenv v1.3.0
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
