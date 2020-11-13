@@ -7,8 +7,8 @@ import (
 	sensorDataDTO "github.com/naufalfmm/project-iot/model/dto/sensorData"
 )
 
-func (s *service) Insert(ctx echo.Context, req sensorDataDTO.CreateDTO, doer uint64) (sensorDataDTO.ResponseDTO, error) {
-	sensorData := dao.NewFromCreateDTO(req, doer)
+func (s *service) Insert(ctx echo.Context, req sensorDataDTO.CreateDTO) (sensorDataDTO.ResponseDTO, error) {
+	sensorData := dao.NewFromCreateDTO(req)
 
 	data, err := s.repository.Insert(ctx, sensorData)
 	if err != nil {

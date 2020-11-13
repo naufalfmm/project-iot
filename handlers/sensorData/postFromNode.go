@@ -24,9 +24,9 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 	e.Set(consts.PostgreTrx, tx)
 
 	for i := 0; i < len(data); i++ {
-		sensorDataReq := data[i].ToCreateDTO(uint64(i), nodeData.ID)
+		sensorDataReq := data[i].ToCreateDTO(uint64(i), nodeData.ID, nodeData.Label)
 
-		sensorData, err := h.domain.SensorData.Insert(e, sensorDataReq, nodeData.ID)
+		sensorData, err := h.domain.SensorData.Insert(e, sensorDataReq)
 		if err != nil {
 			tx.Rollback()
 			return sensorDataDTO.PostFromNodeResponseDTO{}, err

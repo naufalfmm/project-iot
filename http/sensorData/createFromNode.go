@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"regexp"
 	"strconv"
+	"time"
 
 	"github.com/naufalfmm/project-iot/common/defaultResp"
 
@@ -43,6 +44,7 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 	for k := range qp {
 		if k == "token" {
 			req.Token = qp.Get(k)
+			continue
 		}
 
 		if !c.isValidParamKey(k) {
@@ -77,7 +79,24 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 		}
 	}
 
+	req = c.setTimestamp(req)
+
 	return req, nil
+}
+
+func (c *Controller) setTimestamp(req sensorDataDTO.PostFromNodeRequestDTO) sensorDataDTO.PostFromNodeRequestDTO {
+	data := req.Data
+	dataLen := len(data)
+
+	timestamp := time.Now()
+
+	for i := 0; i < dataLen; i++ {
+		data[i].Timestamp = timestamp
+	}
+
+	req.Data = data
+
+	return req
 }
 
 func (c *Controller) isValidParamKey(param string) bool {

@@ -12,14 +12,13 @@ type SensorData struct {
 	Temperature float64   `gorm:"not null"`
 	TDS         float64   `gorm:"not null"`
 	NodeID      uint64    `gorm:"not null"`
+	NodeLabel   string    `gorm:"not null"`
 	GroupTh     uint64    `gorm:"not null"`
 	Timestamp   time.Time `gorm:"not null"`
 	CreatedAt   time.Time `gorm:"not null"`
 	CreatedBy   uint64    `gorm:"not null"`
+	CreatedFrom string    `gorm:"not null"`
 	UpdatedAt   *time.Time
-	UpdatedBy   *uint64
-	DeletedAt   *time.Time
-	DeletedBy   *uint64
 }
 
 func (SensorData) TableName() string {
@@ -30,7 +29,7 @@ func (s SensorData) ToResponseDTO() sensorData.ResponseDTO {
 	return sensorData.ResponseDTO(s)
 }
 
-func NewFromCreateDTO(s sensorData.CreateDTO, doer uint64) SensorData {
+func NewFromCreateDTO(s sensorData.CreateDTO) SensorData {
 	now := time.Now()
 
 	return SensorData{
@@ -38,9 +37,11 @@ func NewFromCreateDTO(s sensorData.CreateDTO, doer uint64) SensorData {
 		Temperature: s.Temp,
 		TDS:         s.TDS,
 		NodeID:      s.NodeID,
+		NodeLabel:   s.NodeLabel,
 		GroupTh:     s.GroupTh,
-		Timestamp:   now,
+		Timestamp:   s.Timestamp,
 		CreatedAt:   now,
-		CreatedBy:   doer,
+		CreatedBy:   s.CreatedBy,
+		CreatedFrom: s.CreatedFrom,
 	}
 }

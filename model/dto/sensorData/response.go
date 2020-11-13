@@ -13,14 +13,13 @@ type (
 		Temperature float64    `json:"temp"`
 		TDS         float64    `json:"tds"`
 		NodeID      uint64     `json:"node_id"`
+		NodeLabel   string     `json:"node_label"`
 		GroupTh     uint64     `json:"group_th"`
 		Timestamp   time.Time  `json:"timestamp"`
 		CreatedAt   time.Time  `json:"created_at"`
 		CreatedBy   uint64     `json:"created_by"`
+		CreatedFrom string     `json:"created_from"`
 		UpdatedAt   *time.Time `json:"updated_at"`
-		UpdatedBy   *uint64    `json:"updated_by"`
-		DeletedAt   *time.Time `json:"deleted_at"`
-		DeletedBy   *uint64    `json:"deleted_by"`
 	}
 )
 
