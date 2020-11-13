@@ -1,21 +1,20 @@
 package token
 
 import (
-	"crypto/md5"
+	"crypto/hmac"
+	"crypto/sha1"
 	"encoding/hex"
-	"fmt"
 	"strconv"
 	"time"
 )
 
 func GenerateNodeToken(label string) string {
-	hasher := md5.New()
 	unixNow := time.Now().Unix()
 	unixNowStr := strconv.FormatInt(unixNow, 10)
 
-	txt := fmt.Sprintf("%s%s", label, unixNowStr)
+	h := hmac.New(sha1.New, []byte(unixNowStr))
+	h.Write([]byte(label))
+	sha := hex.EncodeToString(h.Sum(nil))
 
-	hash := hasher.Sum([]byte(txt))
-
-	return hex.EncodeToString(hash[:])
+	return sha
 }
