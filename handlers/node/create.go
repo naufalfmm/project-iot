@@ -9,7 +9,7 @@ import (
 )
 
 func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.CreateResponseDTO, error) {
-	groupNumberLabel := createReq.Body.SensorGroup
+	groupNumberLabel := createReq.Body.SensorGroupLabels
 	groupNumber := len(groupNumberLabel)
 
 	nodeCreateDTO := nodeDTO.CreateDTO{

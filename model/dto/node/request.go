@@ -16,10 +16,10 @@ type (
 
 type (
 	CreateRequestBodyDTO struct {
-		Label       string   `json:"label" validate:"required"`
-		Location    *string  `json:"location"`
-		Type        string   `json:"type" validate:"required"`
-		SensorGroup []string `json:"sensor_group_labels" validate:"required"`
+		Label             string   `json:"label" validate:"required"`
+		Location          *string  `json:"location"`
+		Type              string   `json:"type" validate:"required"`
+		SensorGroupLabels []string `json:"sensor_group_labels" validate:"required"`
 	}
 )
 
