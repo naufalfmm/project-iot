@@ -1,12 +1,20 @@
 package dao
 
-import sensorGroupDTO "github.com/naufalfmm/project-iot/model/dto/sensorGroup"
+import (
+	"time"
+
+	sensorGroupDTO "github.com/naufalfmm/project-iot/model/dto/sensorGroup"
+)
 
 type SensorGroup struct {
-	ID     uint64 `gorm:"PRIMARY_KEY"`
-	Label  string `gorm:"not null"`
-	NodeID uint64 `gorm:"not null"`
-	Th     uint64 `gorm:"not null"`
+	ID        uint64    `gorm:"PRIMARY_KEY"`
+	Label     string    `gorm:"not null"`
+	NodeID    uint64    `gorm:"not null"`
+	Th        uint64    `gorm:"not null"`
+	CreatedAt time.Time `gorm:"not null"`
+	UpdatedAt *time.Time
+	DeletedAt *time.Time
+	IsDeleted bool
 }
 
 func (SensorGroup) TableName() string {
@@ -18,9 +26,12 @@ func (sg SensorGroup) ToResponseDTO() sensorGroupDTO.ResponseDTO {
 }
 
 func NewSensorGroupFromCreateDTO(c sensorGroupDTO.CreateDTO) SensorGroup {
+	now := time.Now()
+
 	return SensorGroup{
-		Label:  c.Label,
-		NodeID: c.NodeID,
-		Th:     c.Th,
+		Label:     c.Label,
+		NodeID:    c.NodeID,
+		Th:        c.Th,
+		CreatedAt: now,
 	}
 }

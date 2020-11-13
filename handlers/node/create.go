@@ -21,10 +21,12 @@ func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (
 	}
 
 	tx := h.resource.DB.Begin()
+
 	ctx.Set(consts.PostgreTrx, tx)
 
 	newNodeDTO, err := h.domain.Node.Create(ctx, nodeCreateDTO)
 	if err != nil {
+		tx.Rollback()
 		return nodeDTO.CreateResponseDTO{}, err
 	}
 
@@ -39,6 +41,7 @@ func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (
 
 		newGroupDTO, err := h.domain.SensorGroup.Create(ctx, groupCreateDTO)
 		if err != nil {
+			tx.Rollback()
 			return nodeDTO.CreateResponseDTO{}, err
 		}
 
@@ -49,6 +52,8 @@ func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (
 		ResponseDTO:  newNodeDTO,
 		SensorGroups: sensorGroups,
 	}
+
+	tx.Commit()
 
 	return resp, nil
 }
