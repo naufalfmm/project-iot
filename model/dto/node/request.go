@@ -19,7 +19,7 @@ type (
 		Label       string   `json:"label" validate:"required"`
 		Location    *string  `json:"location"`
 		Type        string   `json:"type" validate:"required"`
-		SensorGroup []string `json:"sensorGroup" validate:"required"`
+		SensorGroup []string `json:"sensor_group" validate:"required"`
 	}
 )
 
