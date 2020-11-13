@@ -6,7 +6,7 @@ import (
 	"github.com/naufalfmm/project-iot/model/dao"
 )
 
-func (r *repository) Get(ctx echo.Context, whereData dao.Node) (dao.Node, error) {
+func (r *repository) GetByToken(ctx echo.Context, token string) (dao.Node, error) {
 	var data dao.Node
 
 	orm, err := utils.GetORMTransaction(ctx, r.resource)
@@ -14,7 +14,7 @@ func (r *repository) Get(ctx echo.Context, whereData dao.Node) (dao.Node, error)
 		return dao.Node{}, err
 	}
 
-	err = orm.First(&data, whereData).Error
+	err = orm.Where("token = ?", token).First(&data).Error
 	if err != nil {
 		return dao.Node{}, err
 	}

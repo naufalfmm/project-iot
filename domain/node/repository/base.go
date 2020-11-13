@@ -8,7 +8,7 @@ import (
 
 type (
 	Repository interface {
-		Get(ctx echo.Context, whereData dao.Node) (dao.Node, error)
+		GetByToken(ctx echo.Context, token string) (dao.Node, error)
 		Create(ctx echo.Context, newNode dao.Node) (dao.Node, error)
 	}
 
