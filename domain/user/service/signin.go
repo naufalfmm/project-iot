@@ -9,16 +9,11 @@ import (
 	"github.com/naufalfmm/project-iot/common/consts"
 	"gorm.io/gorm"
 
-	"github.com/naufalfmm/project-iot/model/dao"
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 )
 
 func (s *service) SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.SignInResponseDTO, error) {
-	whereUser := dao.User{
-		Username: signInData.Username,
-	}
-
-	userData, err := s.repository.Get(ctx, whereUser)
+	userData, err := s.repository.GetByUsername(ctx, signInData.Username)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return userDTO.SignInResponseDTO{}, consts.Unauthorized

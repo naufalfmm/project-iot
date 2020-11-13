@@ -9,7 +9,7 @@ import (
 type (
 	Repository interface {
 		Create(ctx echo.Context, newUser dao.User) (dao.User, error)
-		Get(ctx echo.Context, whereQuery dao.User) (dao.User, error)
+		GetByUsername(ctx echo.Context, username string) (dao.User, error)
 	}
 
 	repository struct {
