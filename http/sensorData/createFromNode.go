@@ -41,6 +41,8 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 	qp := e.QueryParams()
 	req := sensorDataDTO.PostFromNodeRequestDTO{}
 
+	now := time.Now()
+
 	for k := range qp {
 		if k == "token" {
 			req.Token = qp.Get(k)
@@ -56,7 +58,7 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 			return sensorDataDTO.PostFromNodeRequestDTO{}, err
 		}
 
-		req = c.buildPostDTO(req, i)
+		req = c.buildPostDTO(req, i, now)
 
 		data, err := strconv.ParseFloat(qp.Get(k), 32)
 		if err != nil {
@@ -79,24 +81,7 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 		}
 	}
 
-	req = c.setTimestamp(req)
-
 	return req, nil
-}
-
-func (c *Controller) setTimestamp(req sensorDataDTO.PostFromNodeRequestDTO) sensorDataDTO.PostFromNodeRequestDTO {
-	data := req.Data
-	dataLen := len(data)
-
-	timestamp := time.Now()
-
-	for i := 0; i < dataLen; i++ {
-		data[i].Timestamp = timestamp
-	}
-
-	req.Data = data
-
-	return req
 }
 
 func (c *Controller) isValidParamKey(param string) bool {
@@ -121,11 +106,14 @@ func (c *Controller) splitParamKeyWithIndex(paramKey string) (string, int, error
 	return res[1], idx, nil
 }
 
-func (c *Controller) buildPostDTO(req sensorDataDTO.PostFromNodeRequestDTO, idx int) sensorDataDTO.PostFromNodeRequestDTO {
+func (c *Controller) buildPostDTO(req sensorDataDTO.PostFromNodeRequestDTO, idx int, timestamp time.Time) sensorDataDTO.PostFromNodeRequestDTO {
 	len := len(req.Data)
 
 	for i := 0; i < idx-len+1; i++ {
-		req.Data = append(req.Data, sensorDataDTO.PostDTO{})
+		newData := sensorDataDTO.PostDTO{
+			Timestamp: timestamp,
+		}
+		req.Data = append(req.Data, newData)
 	}
 
 	return req
