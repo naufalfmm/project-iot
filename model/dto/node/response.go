@@ -24,6 +24,6 @@ type (
 
 	CreateResponseDTO struct {
 		ResponseDTO
-		SensorGroups []sensorGroup.ResponseDTO
+		SensorGroups []sensorGroup.ResponseDTO `json:"sensor_groups"`
 	}
 )
