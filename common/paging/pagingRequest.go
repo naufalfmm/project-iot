@@ -65,7 +65,7 @@ func getSort(ctx echo.Context, defaultSort []string) []string {
 
 	sortsLen := len(sorts)
 
-	if sortsLen == 0 {
+	if dataQp == "" {
 		return defaultSort
 	}
 

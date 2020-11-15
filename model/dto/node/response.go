@@ -4,7 +4,21 @@ import (
 	"math"
 	"time"
 
+	"github.com/naufalfmm/project-iot/common/paging"
+
 	"github.com/naufalfmm/project-iot/model/dto/sensorGroup"
+)
+
+type (
+	GroupNumberResponseParamDTO struct {
+		Min *uint64 `json:"min,omitempty"`
+		Max *uint64 `json:"max,omitempty"`
+	}
+
+	AllResponseParamsDTO struct {
+		paging.PagingRequest
+		GroupNumber *GroupNumberResponseParamDTO `json:"group_number,omitempty"`
+	}
 )
 
 type (
@@ -21,6 +35,7 @@ type (
 		UpdatedBy   *uint64    `json:"updated_by,omitempty"`
 		DeletedAt   *time.Time `json:"deleted_at,omitempty"`
 		DeletedBy   *time.Time `json:"deleted_by,omitempty"`
+		IsDeleted   bool       `json:"is_deleted"`
 	}
 
 	CreateResponseDTO struct {
@@ -31,11 +46,11 @@ type (
 
 type (
 	GetAllResponseDTO struct {
-		Count       int                 `json:"count"`
-		CurrentPage int                 `json:"currentPage"`
-		TotalPages  int                 `json:"totalPages"`
-		Params      AllRequestParamsDTO `json:"params"`
-		Items       []ResponseDTO       `json:"items"`
+		Count       int                  `json:"count"`
+		CurrentPage int                  `json:"currentPage"`
+		TotalPages  int                  `json:"totalPages"`
+		Params      AllResponseParamsDTO `json:"params"`
+		Items       []ResponseDTO        `json:"items"`
 	}
 )
 
@@ -49,7 +64,7 @@ func NewGetAllResponseDTO(params AllRequestParamsDTO, items []ResponseDTO, count
 		Count:       len(items),
 		CurrentPage: params.Page,
 		TotalPages:  totalPages,
-		Params:      params,
+		Params:      params.ToAllResponseParamsDTO(),
 		Items:       items,
 	}
 }

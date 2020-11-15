@@ -23,9 +23,13 @@ func (r *repository) All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (
 		orm = orm.Where(where, dataInterface)
 	}
 
+	sortQuery := params.SortQuery()
+	if sortQuery != "" {
+		orm = orm.Order(sortQuery)
+	}
+
 	err = orm.
-		Where("is_deleted IS NOT NULL").
-		Order(params.SortQuery()).
+		Where("is_deleted = ?", false).
 		Limit(params.Limit).
 		Offset(offset).
 		Find(&results).Error

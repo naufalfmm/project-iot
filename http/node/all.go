@@ -5,6 +5,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/defaultResp"
+
+	nodeDTO "github.com/naufalfmm/project-iot/model/dto/node"
 )
 
 func (c *Controller) All(ctx echo.Context) error {

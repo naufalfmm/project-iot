@@ -17,6 +17,19 @@ type (
 	}
 )
 
+func NewAllRequestParamsDTO(ctx echo.Context) AllRequestParamsDTO {
+	pagingParam, _ := paging.NewPagingRequest(ctx)
+	gnMin, gnMax := getGroupNumberFilter(ctx)
+
+	arp := AllRequestParamsDTO{
+		pagingParam,
+		gnMin,
+		gnMax,
+	}
+
+	return arp
+}
+
 func getGroupNumberFilter(ctx echo.Context) (*uint64, *uint64) {
 	var (
 		gnMax, gnMin *uint64
@@ -25,7 +38,7 @@ func getGroupNumberFilter(ctx echo.Context) (*uint64, *uint64) {
 	groupNumberQp := ctx.QueryParam("group_number")
 	groupNumbers := strings.Split(groupNumberQp, ",")
 
-	if len(groupNumbers) == 0 {
+	if groupNumberQp == "" {
 		return nil, nil
 	}
 
@@ -38,19 +51,6 @@ func getGroupNumberFilter(ctx echo.Context) (*uint64, *uint64) {
 	}
 
 	return gnMin, gnMax
-}
-
-func NewAllRequestParamsDTO(ctx echo.Context) AllRequestParamsDTO {
-	pagingParam, _ := paging.NewPagingRequest(ctx)
-	gnMin, gnMax := getGroupNumberFilter(ctx)
-
-	arp := AllRequestParamsDTO{
-		pagingParam,
-		gnMin,
-		gnMax,
-	}
-
-	return arp
 }
 
 func (arp AllRequestParamsDTO) GroupNumberWhereQuery() (string, []uint64) {
@@ -67,6 +67,28 @@ func (arp AllRequestParamsDTO) GroupNumberWhereQuery() (string, []uint64) {
 	}
 
 	return "", []uint64{}
+}
+
+func (arp AllRequestParamsDTO) ToAllResponseParamsDTO() AllResponseParamsDTO {
+	var groupNumber *GroupNumberResponseParamDTO
+
+	pagingReq := paging.PagingRequest{
+		Page:  arp.Page,
+		Limit: arp.Limit,
+		Sort:  arp.Sort,
+	}
+
+	if arp.GroupNumberMin != nil || arp.GroupNumberMax != nil {
+		groupNumber = &GroupNumberResponseParamDTO{
+			Min: arp.GroupNumberMin,
+			Max: arp.GroupNumberMax,
+		}
+	}
+
+	return AllResponseParamsDTO{
+		pagingReq,
+		groupNumber,
+	}
 }
 
 type (

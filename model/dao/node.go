@@ -20,8 +20,7 @@ type Node struct {
 	UpdatedBy   *uint64
 	DeletedAt   *time.Time
 	DeletedBy   *time.Time
-
-	SensorGroups SensorGroups
+	IsDeleted   bool
 }
 
 func (Node) TableName() string {
@@ -30,17 +29,19 @@ func (Node) TableName() string {
 
 func (n Node) ToResponseDTO() nodeDTO.ResponseDTO {
 	return nodeDTO.ResponseDTO{
-		ID:        n.ID,
-		Label:     n.Label,
-		Location:  n.Location,
-		Token:     n.Token,
-		Type:      n.Type,
-		CreatedAt: n.CreatedAt,
-		CreatedBy: n.CreatedBy,
-		UpdatedAt: n.UpdatedAt,
-		UpdatedBy: n.UpdatedBy,
-		DeletedAt: n.DeletedAt,
-		DeletedBy: n.DeletedBy,
+		ID:          n.ID,
+		Label:       n.Label,
+		Location:    n.Location,
+		Token:       n.Token,
+		Type:        n.Type,
+		GroupNumber: n.GroupNumber,
+		CreatedAt:   n.CreatedAt,
+		CreatedBy:   n.CreatedBy,
+		UpdatedAt:   n.UpdatedAt,
+		UpdatedBy:   n.UpdatedBy,
+		DeletedAt:   n.DeletedAt,
+		DeletedBy:   n.DeletedBy,
+		IsDeleted: n.IsDeleted,
 	}
 }
 
