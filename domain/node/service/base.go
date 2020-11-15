@@ -11,6 +11,8 @@ type (
 	Service interface {
 		CheckToken(ctx echo.Context, token string) (nodeDTO.ResponseDTO, error)
 		Create(ctx echo.Context, create nodeDTO.CreateDTO) (nodeDTO.ResponseDTO, error)
+		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) ([]nodeDTO.ResponseDTO, error)
+		Count(ctx echo.Context) (int64, error)
 	}
 
 	service struct {

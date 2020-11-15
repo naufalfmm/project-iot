@@ -10,6 +10,7 @@ import (
 type (
 	Handler interface {
 		Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.CreateResponseDTO, error)
+		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (nodeDTO.GetAllResponseDTO, error)
 	}
 
 	handler struct {
