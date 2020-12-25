@@ -8,7 +8,7 @@ import (
 	nodeDTO "github.com/naufalfmm/project-iot/model/dto/node"
 )
 
-func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (nodeDTO.ResponseDTO, error) {
+func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, error) {
 	newNode := dao.NewNodeFromCreateDTO(create)
 
 	newNode, err := s.repository.Create(ctx, newNode)
@@ -18,14 +18,14 @@ func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (nodeDTO.Re
 			{
 				pqErr := err.(*pgconn.PgError)
 				if pqErr.Code == "23505" {
-					return nodeDTO.ResponseDTO{}, consts.UniqueError
+					return dao.Node{}, consts.UniqueError
 				} else {
-					return nodeDTO.ResponseDTO{}, err
+					return dao.Node{}, err
 				}
 			}
 		default:
 			{
-				return nodeDTO.ResponseDTO{}, err
+				return dao.Node{}, err
 			}
 		}
 	}

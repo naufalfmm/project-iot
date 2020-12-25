@@ -23,9 +23,19 @@ func (SensorData) TableName() string {
 	return "sensor_data"
 }
 
-// func (s SensorData) ToResponseDTO() sensorData.ResponseDTO {
-// 	return sensorData.ResponseDTO(s)
-// }
+func (s SensorData) ToResponseDTO() sensorDataDTO.ResponseDTO {
+	return sensorDataDTO.ResponseDTO{
+		ID:         s.ID,
+		NodeID:     s.NodeID,
+		NodeLabel:  s.NodeLabel,
+		GroupTh:    s.GroupTh,
+		SensorCode: s.SensorCode,
+		SensorType: s.SensorType,
+		Value:      s.Value,
+		Unit:       s.Unit,
+		Timestamp:  s.Timestamp,
+	}
+}
 
 func NewFromCreateDTO(s sensorDataDTO.CreateDTO) SensorData {
 	now := time.Now()

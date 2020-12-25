@@ -24,6 +24,19 @@ type (
 	}
 )
 
+func (c CreateDTO) ToResponseDTO() ResponseDTO {
+	return ResponseDTO{
+		NodeID:     c.NodeID,
+		NodeLabel:  c.NodeLabel,
+		GroupTh:    c.GroupTh,
+		SensorCode: c.SensorCode,
+		SensorType: c.SensorType,
+		Value:      c.Value,
+		Unit:       c.Unit,
+		Timestamp:  c.Timestamp,
+	}
+}
+
 // func (p PostDTO) ToCreateDTO(groupTh uint64, nodeID uint64, nodeLabel string) CreateDTO {
 // 	return CreateDTO{
 // 		PH:          p.PH,

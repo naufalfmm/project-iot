@@ -2,7 +2,6 @@ package sensorData
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/naufalfmm/project-iot/common/consts"
 
 	sensorDataDTO "github.com/naufalfmm/project-iot/model/dto/sensorData"
 )
@@ -27,8 +26,7 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 
 	data := req.Data
 
-	tx := h.resource.DB.Begin()
-	e.Set(consts.PostgreTrx, tx)
+	sensorDataReqs := make([]sensorDataDTO.CreateDTO, len(req.Data))
 
 	for i := 0; i < len(data); i++ {
 		sensorDataReq = sensorDataDTO.CreateDTO{
@@ -43,16 +41,15 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 			CreatedBy:  nodeData.Label,
 		}
 
-		sensorData, err := h.domain.SensorData.Insert(e, sensorDataReq)
-		if err != nil {
-			tx.Rollback()
-			return sensorDataDTO.PostFromNodeResponseDTO{}, err
-		}
+		sensorDataReqs[i] = sensorDataReq
 
-		resp.Data[i] = sensorData
+		resp.Data[i] = sensorDataReq.ToResponseDTO()
 	}
 
-	tx.Commit()
+	err = h.domain.SensorData.BulkInsert(e, sensorDataReq)
+	if err != nil {
+		return sensorDataDTO.PostFromNodeResponseDTO{}, err
+	}
 
 	return resp, nil
 }

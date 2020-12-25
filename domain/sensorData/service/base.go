@@ -11,6 +11,7 @@ import (
 type (
 	Service interface {
 		Insert(ctx echo.Context, req sensorDataDTO.CreateDTO) (dao.SensorData, error)
+		BulkInsert(ctx echo.Context, reqs []sensorDataDTO.CreateDTO) (dao.SensorDataList, error)
 	}
 
 	service struct {
