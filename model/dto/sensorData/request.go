@@ -4,15 +4,15 @@ import "time"
 
 type (
 	CreateDTO struct {
-		PH          float64
-		TDS         float64
-		Temp        float64
-		GroupTh     uint64
-		NodeID      uint64
-		NodeLabel   string
-		Timestamp   time.Time
-		CreatedBy   uint64
-		CreatedFrom string
+		NodeID     uint64
+		NodeLabel  string
+		GroupTh    uint64
+		SensorCode string
+		SensorType string
+		Value      float64
+		Unit       string
+		Timestamp  time.Time
+		CreatedBy  string
 	}
 )
 
@@ -24,16 +24,16 @@ type (
 	}
 )
 
-func (p PostDTO) ToCreateDTO(groupTh uint64, nodeID uint64, nodeLabel string) CreateDTO {
-	return CreateDTO{
-		PH:          p.PH,
-		TDS:         p.TDS,
-		Temp:        p.Temp,
-		GroupTh:     groupTh,
-		NodeID:      nodeID,
-		NodeLabel:   nodeLabel,
-		Timestamp:   p.Timestamp,
-		CreatedBy:   nodeID,
-		CreatedFrom: "NODE",
-	}
-}
+// func (p PostDTO) ToCreateDTO(groupTh uint64, nodeID uint64, nodeLabel string) CreateDTO {
+// 	return CreateDTO{
+// 		PH:          p.PH,
+// 		TDS:         p.TDS,
+// 		Temp:        p.Temp,
+// 		GroupTh:     groupTh,
+// 		NodeID:      nodeID,
+// 		NodeLabel:   nodeLabel,
+// 		Timestamp:   p.Timestamp,
+// 		CreatedBy:   nodeID,
+// 		CreatedFrom: "NODE",
+// 	}
+// }

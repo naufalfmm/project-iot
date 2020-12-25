@@ -2,18 +2,14 @@ package service
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/naufalfmm/project-iot/domain/node/repository"
+	"github.com/naufalfmm/project-iot/domain/sensorGroupType/repository"
 	"github.com/naufalfmm/project-iot/model/dao"
-	nodeDTO "github.com/naufalfmm/project-iot/model/dto/node"
 	"github.com/naufalfmm/project-iot/resource"
 )
 
 type (
 	Service interface {
-		CheckToken(ctx echo.Context, token string) (dao.Node, error)
-		Create(ctx echo.Context, create nodeDTO.CreateDTO) (nodeDTO.ResponseDTO, error)
-		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) ([]nodeDTO.ResponseDTO, error)
-		Count(ctx echo.Context) (int64, error)
+		AllByNodeID(ctx echo.Context, nodeID uint64) (dao.SensorGroupTypes, error)
 	}
 
 	service struct {

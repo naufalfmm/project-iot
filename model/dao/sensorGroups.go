@@ -1,23 +1,19 @@
 package dao
 
-import (
-	sensorGroupDTO "github.com/naufalfmm/project-iot/model/dto/sensorGroup"
-)
-
 type SensorGroups []SensorGroup
 
 func (sgs SensorGroups) Len() int {
 	return len(sgs)
 }
 
-func (sgs SensorGroups) ToResponsesDTO() []sensorGroupDTO.ResponseDTO {
-	sgsLen := sgs.Len()
+// func (sgs SensorGroups) ToResponsesDTO() []sensorGroupDTO.ResponseDTO {
+// 	sgsLen := sgs.Len()
 
-	sgsDTO := make([]sensorGroupDTO.ResponseDTO, sgsLen)
+// 	sgsDTO := make([]sensorGroupDTO.ResponseDTO, sgsLen)
 
-	for i := 0; i < sgsLen; i++ {
-		sgsDTO[i] = sgs[i].ToResponseDTO()
-	}
+// 	for i := 0; i < sgsLen; i++ {
+// 		sgsDTO[i] = sgs[i].ToResponseDTO()
+// 	}
 
-	return sgsDTO
-}
+// 	return sgsDTO
+// }

@@ -43,6 +43,8 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 
 	now := time.Now()
 
+	sensorData := []float64{}
+
 	for k := range qp {
 		if k == "token" {
 			req.Token = qp.Get(k)
@@ -53,68 +55,22 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 			return sensorDataDTO.PostFromNodeRequestDTO{}, errors.New("Wrong param key format")
 		}
 
-		key, i, err := c.splitParamKeyWithIndex(k)
+		data, err := strconv.ParseFloat(qp.Get(k), 64)
 		if err != nil {
 			return sensorDataDTO.PostFromNodeRequestDTO{}, err
 		}
 
-		req = c.buildPostDTO(req, i, now)
-
-		data, err := strconv.ParseFloat(qp.Get(k), 32)
-		if err != nil {
-			return sensorDataDTO.PostFromNodeRequestDTO{}, err
-		}
-
-		if key == "temp" {
-			req.Data[i].Temp = data
-			continue
-		}
-
-		if key == "tds" {
-			req.Data[i].TDS = data
-			continue
-		}
-
-		if key == "ph" {
-			req.Data[i].PH = data
-			continue
-		}
+		sensorData = append(sensorData, data)
 	}
+
+	req.Data = sensorData
+	req.Timestamp = now
 
 	return req, nil
 }
 
 func (c *Controller) isValidParamKey(param string) bool {
-	re := regexp.MustCompile(`^[a-zA-Z]+\d$`)
+	re := regexp.MustCompile(`^sensor\d$`)
 
 	return re.Match([]byte(param))
-}
-
-func (c *Controller) splitParamKeyWithIndex(paramKey string) (string, int, error) {
-	re := regexp.MustCompile(`^([a-zA-Z]+)(\d)$`)
-
-	res := re.FindStringSubmatch(paramKey)
-	if len(res) < 3 {
-		return "", 0, errors.New("Wrong param key format")
-	}
-
-	idx, err := strconv.Atoi(res[2])
-	if err != nil {
-		return "", 0, err
-	}
-
-	return res[1], idx, nil
-}
-
-func (c *Controller) buildPostDTO(req sensorDataDTO.PostFromNodeRequestDTO, idx int, timestamp time.Time) sensorDataDTO.PostFromNodeRequestDTO {
-	len := len(req.Data)
-
-	for i := 0; i < idx-len+1; i++ {
-		newData := sensorDataDTO.PostDTO{
-			Timestamp: timestamp,
-		}
-		req.Data = append(req.Data, newData)
-	}
-
-	return req
 }
