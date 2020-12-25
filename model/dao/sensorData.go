@@ -7,18 +7,16 @@ import (
 )
 
 type SensorData struct {
-	ID          uint64    `gorm:"PRIMARY_KEY"`
-	PH          float64   `gorm:"not null"`
-	Temperature float64   `gorm:"not null"`
-	TDS         float64   `gorm:"not null"`
-	NodeID      uint64    `gorm:"not null"`
-	NodeLabel   string    `gorm:"not null"`
-	GroupTh     uint64    `gorm:"not null"`
-	Timestamp   time.Time `gorm:"not null"`
-	CreatedAt   time.Time `gorm:"not null"`
-	CreatedBy   uint64    `gorm:"not null"`
-	CreatedFrom string    `gorm:"not null"`
-	UpdatedAt   *time.Time
+	ID         uint64    `gorm:"PRIMARY_KEY"`
+	NodeID     uint64    `gorm:"not null"`
+	NodeLabel  string    `gorm:"not null"`
+	GroupTh    uint64    `gorm:"not null"`
+	SensorCode string    `gorm:"not null"`
+	SendorType string    `gorm:"not null"`
+	Value      float64   `gorm:"not null"`
+	Unit       string    `gorm:"not null"`
+	Timestamp  time.Time `gorm:"not null"`
+	BaseModel
 }
 
 func (SensorData) TableName() string {

@@ -9,18 +9,12 @@ import (
 
 type Node struct {
 	ID          uint64 `gorm:"PRIMARY_KEY"`
+	Type        string `gorm:"not null"`
 	Label       string `gorm:"not null"`
+	Token       string `gorm:"not null"`
 	Location    *string
-	Token       string    `gorm:"not null"`
-	Type        string    `gorm:"not null"`
-	GroupNumber uint64    `gorm:"not null"`
-	CreatedAt   time.Time `gorm:"not null"`
-	CreatedBy   uint64    `gorm:"not null"`
-	UpdatedAt   *time.Time
-	UpdatedBy   *uint64
-	DeletedAt   *time.Time
-	DeletedBy   *time.Time
-	IsDeleted   bool
+	GroupNumber uint64 `gorm:"not null"`
+	BaseModelSoftDeleted
 }
 
 func (Node) TableName() string {
@@ -41,7 +35,7 @@ func (n Node) ToResponseDTO() nodeDTO.ResponseDTO {
 		UpdatedBy:   n.UpdatedBy,
 		DeletedAt:   n.DeletedAt,
 		DeletedBy:   n.DeletedBy,
-		IsDeleted: n.IsDeleted,
+		IsDeleted:   n.IsDeleted,
 	}
 }
 

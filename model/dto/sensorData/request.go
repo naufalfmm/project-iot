@@ -17,16 +17,10 @@ type (
 )
 
 type (
-	PostDTO struct {
-		PH        float64   `validate:"required"`
-		TDS       float64   `validate:"required"`
-		Temp      float64   `validate:"required"`
-		Timestamp time.Time `validate:"required"`
-	}
-
 	PostFromNodeRequestDTO struct {
-		Token string    `validate:"required"`
-		Data  []PostDTO `validate:"dive"`
+		Token     string    `validate:"required"`
+		Data      []float64 `validate:"required"`
+		Timestamp time.Time `validate:"required"`
 	}
 )
 

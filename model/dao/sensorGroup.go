@@ -7,14 +7,11 @@ import (
 )
 
 type SensorGroup struct {
-	ID        uint64    `gorm:"PRIMARY_KEY"`
-	Label     string    `gorm:"not null"`
-	NodeID    uint64    `gorm:"not null"`
-	Th        uint64    `gorm:"not null"`
-	CreatedAt time.Time `gorm:"not null"`
-	UpdatedAt *time.Time
-	DeletedAt *time.Time
-	IsDeleted bool
+	ID     uint64 `gorm:"PRIMARY_KEY"`
+	Label  string `gorm:"not null"`
+	NodeID uint64 `gorm:"not null"`
+	Th     uint64 `gorm:"not null"`
+	BaseModelSoftDeleted
 }
 
 func (SensorGroup) TableName() string {
