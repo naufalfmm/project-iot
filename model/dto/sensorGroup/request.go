@@ -5,5 +5,6 @@ type (
 		Label  string
 		NodeID uint64
 		Th     uint64
+		By     string
 	}
 )

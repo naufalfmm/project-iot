@@ -12,7 +12,7 @@ type (
 	Service interface {
 		CheckToken(ctx echo.Context, token string) (dao.Node, error)
 		Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, error)
-		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) ([]nodeDTO.ResponseDTO, error)
+		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (dao.Nodes, error)
 		Count(ctx echo.Context) (int64, error)
 	}
 

@@ -6,13 +6,13 @@ import (
 	sensorGroupDTO "github.com/naufalfmm/project-iot/model/dto/sensorGroup"
 )
 
-func (s *service) Create(ctx echo.Context, create sensorGroupDTO.CreateDTO) (sensorGroupDTO.ResponseDTO, error) {
-	newSensorGroup := dao.NewSensorGroupFromCreateDTO(create)
+func (s *service) Create(ctx echo.Context, create sensorGroupDTO.CreateDTO) (dao.SensorGroup, error) {
+	newSensorGroupDTO := dao.NewSensorGroupFromCreateDTO(create)
 
-	newSensorGroup, err := s.repository.Create(ctx, newSensorGroup)
+	newSensorGroup, err := s.repository.Create(ctx, newSensorGroupDTO)
 	if err != nil {
-		return sensorGroupDTO.ResponseDTO{}, err
+		return dao.SensorGroup{}, err
 	}
 
-	return newSensorGroup.ToResponseDTO(), nil
+	return newSensorGroup, nil
 }

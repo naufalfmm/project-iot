@@ -97,7 +97,7 @@ type (
 		Location    *string
 		Type        string
 		GroupNumber uint64
-		By          uint64
+		By          string
 	}
 )
 

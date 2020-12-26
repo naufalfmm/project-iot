@@ -9,9 +9,9 @@ import (
 )
 
 func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, error) {
-	newNode := dao.NewNodeFromCreateDTO(create)
+	newNodeDTO := dao.NewNodeFromCreateDTO(create)
 
-	newNode, err := s.repository.Create(ctx, newNode)
+	newNode, err := s.repository.Create(ctx, newNodeDTO)
 	if err != nil {
 		switch err.(type) {
 		case *pgconn.PgError:
