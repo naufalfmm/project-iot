@@ -23,19 +23,13 @@ type (
 
 type (
 	ResponseDTO struct {
-		ID          uint64     `json:"id"`
-		Label       string     `json:"label"`
-		Location    *string    `json:"location"`
-		Token       string     `json:"token"`
-		Type        string     `json:"type"`
-		GroupNumber uint64     `json:"group_number"`
-		CreatedAt   time.Time  `json:"created_at"`
-		CreatedBy   string     `json:"created_by"`
-		UpdatedAt   *time.Time `json:"updated_at,omitempty"`
-		UpdatedBy   *string    `json:"updated_by,omitempty"`
-		DeletedAt   *time.Time `json:"deleted_at,omitempty"`
-		DeletedBy   *string    `json:"deleted_by,omitempty"`
-		IsDeleted   bool       `json:"is_deleted"`
+		ID        uint64    `json:"id"`
+		Label     string    `json:"label"`
+		Location  *string   `json:"location"`
+		Token     string    `json:"token"`
+		Type      string    `json:"type"`
+		CreatedAt time.Time `json:"created_at"`
+		CreatedBy string    `json:"created_by"`
 	}
 
 	CreateResponseDTO struct {

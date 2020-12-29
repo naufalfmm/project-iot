@@ -56,12 +56,14 @@ func EchoMiddleware(j jwt.JWT) echo.MiddlewareFunc {
 			tokenString = strings.Replace(tokenString, "Bearer ", "", -1)
 
 			if tokenString == "" {
-				return defaultResp.CreateErrorResp(ctx, http.StatusUnauthorized, consts.Unauthorized.Error())
+				ctx.Set(consts.ResponseCode, http.StatusUnauthorized)
+				return defaultResp.CreateResp(ctx, consts.Unauthorized.Error())
 			}
 
 			clientDTO, err := DecodeToken(j, tokenString)
 			if err != nil {
-				return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+				ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+				return defaultResp.CreateResp(ctx, err.Error())
 			}
 
 			ctx.Set(consts.UserLoginKey, clientDTO)

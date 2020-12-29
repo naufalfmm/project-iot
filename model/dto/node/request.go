@@ -103,40 +103,15 @@ type (
 
 type (
 	CreateRequestBodyDTO struct {
-		Label             string   `json:"label" validate:"required"`
-		Location          *string  `json:"location"`
-		Type              string   `json:"type" validate:"required"`
-		SensorGroupLabels []string `json:"sensor_group_labels" validate:"required"`
-	}
-
-	SensorGroupsNodeRequestDTO struct {
-		Label  string                                `json:"label" validate:"required"`
-		Sensor []SensorTypeSensorGroupNodeRequestDTO `json:"sensor" validate:"required"`
-	}
-
-	SensorTypeSensorGroupNodeRequestDTO struct {
-		Code        string `json:"code"`
-		Description string `json:"description"`
-		Type        string `json:"type" validate:"required"`
-		Unit        string `json:"unit" validate:"required"`
-	}
-
-	CreateCompleteRequestBodyDTO struct {
-		Label        string                       `json:"label" validate:"required"`
-		Location     *string                      `json:"location"`
-		Type         string                       `json:"type" validate:"required"`
-		SensorGroups []SensorGroupsNodeRequestDTO `json:"sensor_group_labels" validate:"required"`
+		Label    string  `json:"label" validate:"required"`
+		Location *string `json:"location"`
+		Type     string  `json:"type" validate:"required"`
 	}
 )
 
 type (
 	CreateRequestDTO struct {
 		Body CreateRequestBodyDTO
-		By   login.ClientJWTDTO
-	}
-
-	CreateCompleteRequestDTO struct {
-		Body CreateCompleteRequestBodyDTO
 		By   login.ClientJWTDTO
 	}
 )

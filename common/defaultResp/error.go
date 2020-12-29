@@ -7,7 +7,7 @@ type Error struct {
 	Error interface{} `json:"error"`
 }
 
-func CreateErrorResp(ctx echo.Context, code int, err interface{}) error {
+func createErrorResp(ctx echo.Context, code int, err interface{}) error {
 	errorData := Error{
 		Code:  code,
 		Error: err,

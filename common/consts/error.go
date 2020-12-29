@@ -9,4 +9,5 @@ var (
 	WrongClaimsFormat       error = errors.New("Wrong claims format")
 	UndefinedLoginDataError error = errors.New("login data is not defined by token")
 	UniqueError             error = errors.New("Unique error")
+	NotFoundError           error = errors.New("Not Found")
 )

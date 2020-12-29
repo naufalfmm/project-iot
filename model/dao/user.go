@@ -42,6 +42,13 @@ func (u User) ToSignInResponseDTO() userDTO.SignInResponseDTO {
 	}
 }
 
+func (u User) ToSignInTokenResponseDTO(token string) userDTO.SignInTokenResponseDTO {
+	return userDTO.SignInTokenResponseDTO{
+		Token: token,
+		User:  u.ToSignInResponseDTO(),
+	}
+}
+
 func NewUserFromSignUpRequestDTO(sur userDTO.SignUpRequestDTO) User {
 	now := time.Now()
 

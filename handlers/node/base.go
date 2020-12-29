@@ -9,7 +9,7 @@ import (
 
 type (
 	Handler interface {
-		CreateComplete(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.CreateResponseDTO, error)
+		Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.ResponseDTO, error)
 		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (nodeDTO.GetAllResponseDTO, error)
 	}
 

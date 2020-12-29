@@ -3,14 +3,15 @@ package service
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/domain/user/repository"
+	"github.com/naufalfmm/project-iot/model/dao"
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 	"github.com/naufalfmm/project-iot/resource"
 )
 
 type (
 	Service interface {
-		SignIn(ctx echo.Context, signInData userDTO.SignInRequestDTO) (userDTO.SignInResponseDTO, error)
-		SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (userDTO.SignUpResponseDTO, error)
+		SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (dao.User, error)
+		GetByUsername(ctx echo.Context, username string) (dao.User, error)
 	}
 
 	service struct {

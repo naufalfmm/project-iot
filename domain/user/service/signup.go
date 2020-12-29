@@ -7,10 +7,10 @@ import (
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 )
 
-func (s *service) SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (userDTO.SignUpResponseDTO, error) {
+func (s *service) SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (dao.User, error) {
 	hashedPass, err := password.Hash(signUpData.Password)
 	if err != nil {
-		return userDTO.SignUpResponseDTO{}, err
+		return dao.User{}, err
 	}
 
 	signUpData.Password = hashedPass
@@ -19,8 +19,10 @@ func (s *service) SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) 
 
 	newUser, err = s.repository.Create(ctx, newUser)
 	if err != nil {
-		return userDTO.SignUpResponseDTO{}, err
+		return dao.User{}, err
 	}
 
-	return newUser.ToSignUpResponseDTO(), nil
+	newUser.Password = hashedPass
+
+	return newUser, nil
 }

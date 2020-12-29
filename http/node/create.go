@@ -1,7 +1,6 @@
 package node
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/naufalfmm/project-iot/common/consts"
@@ -16,15 +15,18 @@ func (c *Controller) Create(ctx echo.Context) error {
 	var bodyReq nodeDTO.CreateRequestBodyDTO
 
 	if err := ctx.Bind(&bodyReq); err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 	if err := ctx.Validate(&bodyReq); err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	loginData, err := c.getCurrentLogin(ctx)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	createReq := nodeDTO.CreateRequestDTO{
@@ -34,11 +36,9 @@ func (c *Controller) Create(ctx echo.Context) error {
 
 	resp, err := c.Node.Create(ctx, createReq)
 	if err != nil {
-		if errors.Is(err, consts.UniqueError) {
-			return defaultResp.CreateErrorResp(ctx, http.StatusConflict, err.Error())
-		}
-		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
-	return defaultResp.CreateSuccessResp(ctx, http.StatusCreated, resp)
+	ctx.Set(consts.ResponseCode, http.StatusCreated)
+	return defaultResp.CreateResp(ctx, resp)
 }

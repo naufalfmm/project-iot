@@ -1,59 +1,33 @@
 package node
 
 import (
+	"errors"
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/consts"
 
 	nodeDTO "github.com/naufalfmm/project-iot/model/dto/node"
-	sensorGroupDTO "github.com/naufalfmm/project-iot/model/dto/sensorGroup"
 )
 
-func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.CreateResponseDTO, error) {
-	groupNumberLabel := createReq.Body.SensorGroupLabels
-	groupNumber := len(groupNumberLabel)
-
+func (h *handler) Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.ResponseDTO, error) {
 	nodeCreateDTO := nodeDTO.CreateDTO{
-		Label:       createReq.Body.Label,
-		Location:    createReq.Body.Location,
-		Type:        createReq.Body.Type,
-		GroupNumber: uint64(groupNumber),
-		By:          createReq.By.ID,
+		Label:    createReq.Body.Label,
+		Location: createReq.Body.Location,
+		Type:     createReq.Body.Type,
+		By:       createReq.By.Username,
 	}
 
-	tx := h.resource.DB.Begin()
-
-	ctx.Set(consts.PostgreTrx, tx)
-
-	newNodeDTO, err := h.domain.Node.Create(ctx, nodeCreateDTO)
+	newNode, err := h.domain.Node.Create(ctx, nodeCreateDTO)
 	if err != nil {
-		tx.Rollback()
-		return nodeDTO.CreateResponseDTO{}, err
-	}
-
-	sensorGroups := make([]sensorGroupDTO.ResponseDTO, groupNumber)
-
-	for i := 0; i < groupNumber; i++ {
-		groupCreateDTO := sensorGroupDTO.CreateDTO{
-			Label:  groupNumberLabel[i],
-			Th:     uint64(i),
-			NodeID: newNodeDTO.ID,
+		statusCode := http.StatusInternalServerError
+		if errors.Is(err, consts.UniqueError) {
+			statusCode = http.StatusConflict
 		}
 
-		newGroupDTO, err := h.domain.SensorGroup.Create(ctx, groupCreateDTO)
-		if err != nil {
-			tx.Rollback()
-			return nodeDTO.CreateResponseDTO{}, err
-		}
-
-		sensorGroups[i] = newGroupDTO
+		ctx.Set(consts.ResponseCode, statusCode)
+		return nodeDTO.ResponseDTO{}, err
 	}
 
-	resp := nodeDTO.CreateResponseDTO{
-		ResponseDTO:  newNodeDTO,
-		SensorGroups: sensorGroups,
-	}
-
-	tx.Commit()
-
-	return resp, nil
+	return newNode.ToResponseDTO(), nil
 }

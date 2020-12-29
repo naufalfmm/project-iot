@@ -3,6 +3,8 @@ package node
 import (
 	"net/http"
 
+	"github.com/naufalfmm/project-iot/common/consts"
+
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/defaultResp"
 
@@ -14,8 +16,9 @@ func (c *Controller) All(ctx echo.Context) error {
 
 	all, err := c.Node.All(ctx, paramsAll)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
-	return defaultResp.CreateSuccessResp(ctx, http.StatusOK, all)
+	return defaultResp.CreateResp(ctx, all)
 }

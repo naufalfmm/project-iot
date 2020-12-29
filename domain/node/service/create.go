@@ -30,5 +30,5 @@ func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, 
 		}
 	}
 
-	return newNode.ToResponseDTO(), nil
+	return newNode, nil
 }

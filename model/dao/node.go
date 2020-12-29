@@ -29,11 +29,6 @@ func (n Node) ToResponseDTO() nodeDTO.ResponseDTO {
 		Type:      n.Type,
 		CreatedAt: n.CreatedAt,
 		CreatedBy: n.CreatedBy,
-		UpdatedAt: n.UpdatedAt,
-		UpdatedBy: n.UpdatedBy,
-		DeletedAt: n.DeletedAt,
-		DeletedBy: n.DeletedBy,
-		IsDeleted: n.IsDeleted,
 	}
 }
 

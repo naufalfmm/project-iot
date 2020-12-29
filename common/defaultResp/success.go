@@ -4,10 +4,10 @@ import "github.com/labstack/echo/v4"
 
 type Success struct {
 	Code int         `json:"code"`
-	Data interface{} `json:"data"`
+	Data interface{} `json:"data,omitempty"`
 }
 
-func CreateSuccessResp(ctx echo.Context, code int, data interface{}) error {
+func createSuccessResp(ctx echo.Context, code int, data interface{}) error {
 	successData := Success{
 		Code: code,
 		Data: data,

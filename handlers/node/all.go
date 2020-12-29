@@ -17,7 +17,9 @@ func (h *handler) All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (nod
 		return nodeDTO.GetAllResponseDTO{}, err
 	}
 
-	resp := nodeDTO.NewGetAllResponseDTO(params, all, count)
+	allDTO := all.ToResponsesDTO()
+
+	resp := nodeDTO.NewGetAllResponseDTO(params, allDTO, count)
 
 	return resp, nil
 }

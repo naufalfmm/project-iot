@@ -1,7 +1,6 @@
 package user
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/naufalfmm/project-iot/common/consts"
@@ -17,22 +16,20 @@ func (c *Controller) SignIn(ctx echo.Context) error {
 
 	err := ctx.Bind(&signinReq)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	err = ctx.Validate(signinReq)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	resp, err := c.User.SignIn(ctx, signinReq)
 	if err != nil {
-		if errors.Is(err, consts.Unauthorized) {
-			return defaultResp.CreateErrorResp(ctx, http.StatusUnauthorized, consts.Unauthorized.Error())
-		}
-
-		return defaultResp.CreateErrorResp(ctx, http.StatusInternalServerError, err.Error())
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
-	return defaultResp.CreateSuccessResp(ctx, http.StatusOK, resp)
+	return defaultResp.CreateResp(ctx, resp)
 }
