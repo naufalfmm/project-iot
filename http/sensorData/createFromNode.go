@@ -18,12 +18,14 @@ import (
 func (c *Controller) CreateFromNode(ctx echo.Context) error {
 	req, err := c.paramBind(ctx)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	err = ctx.Validate(req)
 	if err != nil {
-		return defaultResp.CreateErrorResp(ctx, http.StatusBadRequest, err.Error())
+		ctx.Set(consts.ResponseCode, http.StatusBadRequest)
+		return defaultResp.CreateResp(ctx, err.Error())
 	}
 
 	resp, err := c.SensorData.PostFromNode(ctx, req)
@@ -34,7 +36,8 @@ func (c *Controller) CreateFromNode(ctx echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err)
 	}
 
-	return defaultResp.CreateSuccessResp(ctx, http.StatusCreated, resp)
+	ctx.Set(consts.ResponseCode, http.StatusCreated)
+	return defaultResp.CreateResp(ctx, http.StatusCreated, resp)
 }
 
 func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeRequestDTO, error) {

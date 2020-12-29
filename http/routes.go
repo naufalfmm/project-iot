@@ -1,8 +1,6 @@
 package http
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/defaultResp"
 	"github.com/naufalfmm/project-iot/common/login"
@@ -29,6 +27,6 @@ func (r *Routes) Register(e *echo.Echo) {
 	user.POST("/signup", r.Controllers.User.SignUp, login.EchoMiddleware(r.Resource.Jwt))
 
 	e.GET("/", func(ctx echo.Context) error {
-		return defaultResp.CreateSuccessResp(ctx, http.StatusOK, r.Resource.Config.ServerName)
+		return defaultResp.CreateResp(ctx, r.Resource.Config.ServerName)
 	})
 }
