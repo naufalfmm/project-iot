@@ -15,7 +15,7 @@ type (
 )
 
 func (r *Routes) Register(e *echo.Echo) {
-	sensorData := e.Group("/sensorData")
+	sensorData := e.Group("/sensor-data")
 	sensorData.GET("/post", r.Controllers.SensorData.CreateFromNode)
 
 	node := e.Group("/node", login.EchoMiddleware(r.Resource.Jwt))
@@ -24,7 +24,7 @@ func (r *Routes) Register(e *echo.Echo) {
 
 	user := e.Group("/user")
 	user.POST("/signin", r.Controllers.User.SignIn)
-	user.POST("/signup", r.Controllers.User.SignUp, login.EchoMiddleware(r.Resource.Jwt))
+	user.POST("/signup", r.Controllers.User.SignUp)
 
 	e.GET("/", func(ctx echo.Context) error {
 		return defaultResp.CreateResp(ctx, r.Resource.Config.ServerName)

@@ -47,7 +47,7 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 		resp.Data[i] = sensorDataReq.ToResponseDTO()
 	}
 
-	err = h.domain.SensorData.BulkInsert(e, sensorDataReqs)
+	_, err = h.domain.SensorData.BulkInsert(e, sensorDataReqs)
 	if err != nil {
 		return sensorDataDTO.PostFromNodeResponseDTO{}, err
 	}

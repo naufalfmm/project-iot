@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/naufalfmm/project-iot/common/utils"
 	"github.com/naufalfmm/project-iot/model/dao"
 )
 
