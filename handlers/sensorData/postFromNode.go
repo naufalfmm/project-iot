@@ -32,11 +32,12 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 		sensorDataReq = sensorDataDTO.CreateDTO{
 			NodeID:     nodeData.ID,
 			NodeLabel:  nodeData.Label,
-			GroupTh:    nodeSensors[i].GroupTh,
-			SensorCode: nodeSensors[i].Code,
-			SensorType: nodeSensors[i].Type,
+			Code:       nodeSensors[i].Code,
+			Category:   nodeSensors[i].Category,
 			Value:      data[i],
 			Unit:       nodeSensors[i].Unit,
+			GroupTh:    nodeSensors[i].GroupTh,
+			GroupLabel: nodeSensors[i].GroupLabel,
 			Timestamp:  req.Timestamp,
 			CreatedBy:  nodeData.Label,
 		}

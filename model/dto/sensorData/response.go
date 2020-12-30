@@ -11,11 +11,12 @@ type (
 		ID         uint64    `json:"id,omitempty"`
 		NodeID     uint64    `json:"node_id"`
 		NodeLabel  string    `json:"node_label"`
-		GroupTh    uint32    `json:"group_th"`
-		SensorCode string    `json:"sensor_code"`
-		SensorType string    `json:"sensor_type"`
+		Code       string    `json:"code"`
+		Category   string    `json:"category"`
 		Value      float64   `json:"value"`
 		Unit       string    `json:"unit"`
+		GroupLabel string    `json:"group_label"`
+		GroupTh    uint32    `json:"group_th"`
 		Timestamp  time.Time `json:"timestamp"`
 	}
 )

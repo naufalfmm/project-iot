@@ -10,11 +10,12 @@ type SensorData struct {
 	ID         uint64    `gorm:"PRIMARY_KEY"`
 	NodeID     uint64    `gorm:"not null"`
 	NodeLabel  string    `gorm:"not null"`
-	GroupTh    uint64    `gorm:"not null"`
-	SensorCode string    `gorm:"not null"`
-	SensorType string    `gorm:"not null"`
+	Code       string    `gorm:"not null"`
+	Category   string    `gorm:"not null"`
 	Value      float64   `gorm:"not null"`
 	Unit       string    `gorm:"not null"`
+	GroupLabel string    `gorm:"not null"`
+	GroupTh    uint32    `gorm:"not null"`
 	Timestamp  time.Time `gorm:"not null"`
 	BaseModel
 }
@@ -28,11 +29,12 @@ func (s SensorData) ToResponseDTO() sensorDataDTO.ResponseDTO {
 		ID:         s.ID,
 		NodeID:     s.NodeID,
 		NodeLabel:  s.NodeLabel,
-		GroupTh:    s.GroupTh,
-		SensorCode: s.SensorCode,
-		SensorType: s.SensorType,
+		Code:       s.Code,
+		Category:   s.Category,
 		Value:      s.Value,
 		Unit:       s.Unit,
+		GroupTh:    s.GroupTh,
+		GroupLabel: s.GroupLabel,
 		Timestamp:  s.Timestamp,
 	}
 }
@@ -43,11 +45,12 @@ func NewFromCreateDTO(s sensorDataDTO.CreateDTO) SensorData {
 	return SensorData{
 		NodeID:     s.NodeID,
 		NodeLabel:  s.NodeLabel,
-		GroupTh:    s.GroupTh,
-		SensorCode: s.SensorCode,
-		SensorType: s.SensorType,
+		Code:       s.Code,
+		Category:   s.Category,
 		Value:      s.Value,
 		Unit:       s.Unit,
+		GroupTh:    s.GroupTh,
+		GroupLabel: s.GroupLabel,
 		Timestamp:  s.Timestamp,
 		BaseModel: BaseModel{
 			CreatedAt: now,

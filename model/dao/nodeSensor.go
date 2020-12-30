@@ -13,7 +13,6 @@ type NodeSensor struct {
 	Description string `gorm:"not null"`
 	Category    string `gorm:"not null"`
 	Unit        string `gorm:"not null"`
-	Th          uint32 `gorm:"not null"`
 	GroupLabel  string `gorm:"not null"`
 	GroupTh     uint32 `gorm:"not null"`
 	NodeID      uint64 `gorm:"not null"`

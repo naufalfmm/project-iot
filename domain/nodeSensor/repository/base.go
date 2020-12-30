@@ -9,6 +9,7 @@ import (
 type (
 	Repository interface {
 		AllByNodeID(ctx echo.Context, nodeID uint64) (dao.NodeSensors, error)
+		Create(ctx echo.Context, newSensor dao.NodeSensor) (dao.NodeSensor, error)
 	}
 
 	repository struct {

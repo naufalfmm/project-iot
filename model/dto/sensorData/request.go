@@ -6,11 +6,12 @@ type (
 	CreateDTO struct {
 		NodeID     uint64
 		NodeLabel  string
-		GroupTh    uint32
-		SensorCode string
-		SensorType string
+		Code       string
+		Category   string
 		Value      float64
 		Unit       string
+		GroupLabel string
+		GroupTh    uint32
 		Timestamp  time.Time
 		CreatedBy  string
 	}
@@ -18,9 +19,9 @@ type (
 
 type (
 	PostFromNodeRequestDTO struct {
-		Token     string          `validate:"required"`
-		Data      map[int]float64 `validate:"required"`
-		Timestamp time.Time       `validate:"required"`
+		Token     string    `validate:"required"`
+		Data      []float64 `validate:"required"`
+		Timestamp time.Time `validate:"required"`
 	}
 )
 
@@ -28,25 +29,12 @@ func (c CreateDTO) ToResponseDTO() ResponseDTO {
 	return ResponseDTO{
 		NodeID:     c.NodeID,
 		NodeLabel:  c.NodeLabel,
-		GroupTh:    c.GroupTh,
-		SensorCode: c.SensorCode,
-		SensorType: c.SensorType,
+		Code:       c.Code,
+		Category:   c.Category,
 		Value:      c.Value,
 		Unit:       c.Unit,
+		GroupLabel: c.GroupLabel,
+		GroupTh:    c.GroupTh,
 		Timestamp:  c.Timestamp,
 	}
 }
-
-// func (p PostDTO) ToCreateDTO(groupTh uint64, nodeID uint64, nodeLabel string) CreateDTO {
-// 	return CreateDTO{
-// 		PH:          p.PH,
-// 		TDS:         p.TDS,
-// 		Temp:        p.Temp,
-// 		GroupTh:     groupTh,
-// 		NodeID:      nodeID,
-// 		NodeLabel:   nodeLabel,
-// 		Timestamp:   p.Timestamp,
-// 		CreatedBy:   nodeID,
-// 		CreatedFrom: "NODE",
-// 	}
-// }

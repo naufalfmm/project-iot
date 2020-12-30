@@ -46,7 +46,7 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 
 	now := time.Now()
 
-	sensorData := map[int]float64{}
+	sensorData := []float64{}
 
 	for k := range qp {
 		if k == "token" {
@@ -58,17 +58,12 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 			return sensorDataDTO.PostFromNodeRequestDTO{}, errors.New("Wrong param key format")
 		}
 
-		_, i, err := c.splitParamKeyWithIndex(k)
-		if err != nil {
-			return sensorDataDTO.PostFromNodeRequestDTO{}, err
-		}
-
 		data, err := strconv.ParseFloat(qp.Get(k), 64)
 		if err != nil {
 			return sensorDataDTO.PostFromNodeRequestDTO{}, err
 		}
 
-		sensorData[i] = data
+		sensorData = append(sensorData, data)
 	}
 
 	req.Data = sensorData
@@ -81,20 +76,4 @@ func (c *Controller) isValidParamKey(param string) bool {
 	re := regexp.MustCompile(`^sensor\d$`)
 
 	return re.Match([]byte(param))
-}
-
-func (c *Controller) splitParamKeyWithIndex(paramKey string) (string, int, error) {
-	re := regexp.MustCompile(`^([a-zA-Z]+)(\d)$`)
-
-	res := re.FindStringSubmatch(paramKey)
-	if len(res) < 3 {
-		return "", 0, errors.New("Wrong param key format")
-	}
-
-	idx, err := strconv.Atoi(res[2])
-	if err != nil {
-		return "", 0, err
-	}
-
-	return res[1], idx, nil
 }
