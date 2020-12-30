@@ -14,7 +14,7 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 		return sensorDataDTO.PostFromNodeResponseDTO{}, err
 	}
 
-	sensorGroupTypeData, err := h.domain.SensorGroupType.AllByNodeID(e, nodeData.ID)
+	nodeSensors, err := h.domain.NodeSensor.AllByNodeID(e, nodeData.ID)
 	if err != nil {
 		return sensorDataDTO.PostFromNodeResponseDTO{}, err
 	}
@@ -32,11 +32,11 @@ func (h *handler) PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeReq
 		sensorDataReq = sensorDataDTO.CreateDTO{
 			NodeID:     nodeData.ID,
 			NodeLabel:  nodeData.Label,
-			GroupTh:    sensorGroupTypeData[i].SensorGroup.Th,
-			SensorCode: sensorGroupTypeData[i].Code,
-			SensorType: sensorGroupTypeData[i].Type,
+			GroupTh:    nodeSensors[i].GroupTh,
+			SensorCode: nodeSensors[i].Code,
+			SensorType: nodeSensors[i].Type,
 			Value:      data[i],
-			Unit:       sensorGroupTypeData[i].Unit,
+			Unit:       nodeSensors[i].Unit,
 			Timestamp:  req.Timestamp,
 			CreatedBy:  nodeData.Label,
 		}

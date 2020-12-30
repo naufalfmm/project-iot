@@ -6,7 +6,7 @@ type (
 	CreateDTO struct {
 		NodeID     uint64
 		NodeLabel  string
-		GroupTh    uint64
+		GroupTh    uint32
 		SensorCode string
 		SensorType string
 		Value      float64
@@ -18,9 +18,9 @@ type (
 
 type (
 	PostFromNodeRequestDTO struct {
-		Token     string    `validate:"required"`
-		Data      []float64 `validate:"required"`
-		Timestamp time.Time `validate:"required"`
+		Token     string          `validate:"required"`
+		Data      map[int]float64 `validate:"required"`
+		Timestamp time.Time       `validate:"required"`
 	}
 )
 

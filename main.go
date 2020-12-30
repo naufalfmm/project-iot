@@ -18,8 +18,8 @@ import (
 	sensorDataHandler "github.com/naufalfmm/project-iot/handlers/sensorData"
 	sensorDataCont "github.com/naufalfmm/project-iot/http/sensorData"
 
-	sensorGroupRepo "github.com/naufalfmm/project-iot/domain/sensorGroup/repository"
-	sensorGroupServ "github.com/naufalfmm/project-iot/domain/sensorGroup/service"
+	nodeSensorRepo "github.com/naufalfmm/project-iot/domain/nodeSensor/repository"
+	nodeSensorServ "github.com/naufalfmm/project-iot/domain/nodeSensor/service"
 
 	nodeRepo "github.com/naufalfmm/project-iot/domain/node/repository"
 	nodeServ "github.com/naufalfmm/project-iot/domain/node/service"
@@ -60,8 +60,8 @@ func main() {
 	sensorDataRepoNew, _ := sensorDataRepo.New(resource)
 	sensorDataServNew, _ := sensorDataServ.New(resource, sensorDataRepoNew)
 
-	sensorGroupRepoNew, _ := sensorGroupRepo.New(resource)
-	sensorGroupServNew, _ := sensorGroupServ.New(resource, sensorGroupRepoNew)
+	nodeSensorRepoNew, _ := nodeSensorRepo.New(resource)
+	nodeSensorServNew, _ := nodeSensorServ.New(resource, nodeSensorRepoNew)
 
 	nodeRepoNew, _ := nodeRepo.New(resource)
 	nodeServNew, _ := nodeServ.New(resource, nodeRepoNew)
@@ -70,10 +70,10 @@ func main() {
 	userServNew, _ := userServ.New(resource, userRepoNew)
 
 	domain := domain.Domain{
-		Node:        nodeServNew,
-		SensorData:  sensorDataServNew,
-		SensorGroup: sensorGroupServNew,
-		User:        userServNew,
+		Node:       nodeServNew,
+		SensorData: sensorDataServNew,
+		nodeSensor: nodeSensorServNew,
+		User:       userServNew,
 	}
 
 	sensorDataHandNew, _ := sensorDataHandler.NewHandler(domain, resource)
