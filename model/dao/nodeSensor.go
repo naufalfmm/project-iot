@@ -20,6 +20,7 @@ type NodeSensor struct {
 	GroupLabel  string `gorm:"not null"`
 	GroupTh     uint32 `gorm:"not null"`
 	NodeID      uint64 `gorm:"not null"`
+	IsActive    bool   `gorm:"not null"`
 	BaseModelSoftDeleted
 }
 
@@ -67,6 +68,7 @@ func (ns NodeSensor) ToResponseDTO() nodeSensorDTO.ResponseDTO {
 		GroupLabel:  ns.GroupLabel,
 		GroupTh:     ns.GroupTh,
 		NodeID:      ns.NodeID,
+		IsActive:    ns.IsActive,
 		CreatedAt:   ns.BaseModelSoftDeleted.CreatedAt,
 		CreatedBy:   ns.BaseModelSoftDeleted.CreatedBy,
 	}

@@ -11,6 +11,7 @@ type ResponseDTO struct {
 	GroupLabel  string    `json:"group_label"`
 	GroupTh     uint32    `json:"group_th"`
 	NodeID      uint64    `json:"node_id"`
+	IsActive    bool      `json:"is_active"`
 	CreatedAt   time.Time `json:"created_at"`
 	CreatedBy   string    `json:"created_by"`
 }

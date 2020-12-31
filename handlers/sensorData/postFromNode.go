@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/naufalfmm/project-iot/model/dao"
+
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/consts"
 
@@ -11,7 +13,10 @@ import (
 )
 
 func (h *handler) PostFromNode(ctx echo.Context, req sensorDataDTO.PostFromNodeRequestDTO) (sensorDataDTO.PostFromNodeResponseDTO, error) {
-	var sensorDataReq sensorDataDTO.CreateDTO
+	var (
+		sensorDataReq sensorDataDTO.CreateDTO
+		nodeSensor    dao.NodeSensor
+	)
 
 	nodeData, err := h.domain.Node.CheckToken(ctx, req.Token)
 	if err != nil {
@@ -32,30 +37,36 @@ func (h *handler) PostFromNode(ctx echo.Context, req sensorDataDTO.PostFromNodeR
 
 	resp := sensorDataDTO.PostFromNodeResponseDTO{
 		Node: nodeData.ToResponseDTO(),
-		Data: make([]sensorDataDTO.ResponseDTO, len(nodeSensors)),
 	}
 
 	data := req.Data
 
-	sensorDataReqs := make([]sensorDataDTO.CreateDTO, len(nodeSensors))
+	dataResp := []sensorDataDTO.ResponseDTO{}
+	sensorDataReqs := []sensorDataDTO.CreateDTO{}
 
 	for i := 0; i < len(nodeSensors); i++ {
+		nodeSensor = nodeSensors[i]
+
+		if !nodeSensor.IsActive {
+			continue
+		}
+
 		sensorDataReq = sensorDataDTO.CreateDTO{
 			NodeID:     nodeData.ID,
 			NodeLabel:  nodeData.Label,
-			Code:       nodeSensors[i].Code,
-			Category:   nodeSensors[i].Category,
+			Code:       nodeSensor.Code,
+			Category:   nodeSensor.Category,
 			Value:      data[i],
-			Unit:       nodeSensors[i].Unit,
-			GroupTh:    nodeSensors[i].GroupTh,
-			GroupLabel: nodeSensors[i].GroupLabel,
+			Unit:       nodeSensor.Unit,
+			GroupTh:    nodeSensor.GroupTh,
+			GroupLabel: nodeSensor.GroupLabel,
 			Timestamp:  req.Timestamp,
 			CreatedBy:  nodeData.Label,
 		}
 
-		sensorDataReqs[i] = sensorDataReq
+		sensorDataReqs = append(sensorDataReqs, sensorDataReq)
 
-		resp.Data[i] = sensorDataReq.ToResponseDTO()
+		dataResp = append(dataResp, sensorDataReq.ToResponseDTO())
 	}
 
 	_, err = h.domain.SensorData.BulkInsert(ctx, sensorDataReqs)
@@ -63,6 +74,8 @@ func (h *handler) PostFromNode(ctx echo.Context, req sensorDataDTO.PostFromNodeR
 		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
 		return sensorDataDTO.PostFromNodeResponseDTO{}, err
 	}
+
+	resp.Data = dataResp
 
 	return resp, nil
 }
