@@ -9,7 +9,7 @@ func (r *repository) GetUniqueByNodeID(ctx echo.Context, nodeID uint64) (dao.Gro
 	var groups dao.GroupSensors
 
 	err := r.resource.DB.
-		Where("node_id = ?", nodeID).
+		Where("node_id = ? AND is_deleted = ?", nodeID, false).
 		Select("DISTINCT ON(group_th) group_th, group_label, node_id").
 		Find(&groups).
 		Error

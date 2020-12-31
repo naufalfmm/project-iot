@@ -14,7 +14,7 @@ func (r *repository) GetByToken(ctx echo.Context, token string) (dao.Node, error
 		return dao.Node{}, err
 	}
 
-	err = orm.Where("token = ?", token).First(&data).Error
+	err = orm.Where("token = ? AND is_deleted = ?", token, false).First(&data).Error
 	if err != nil {
 		return dao.Node{}, err
 	}

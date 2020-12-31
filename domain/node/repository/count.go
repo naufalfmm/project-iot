@@ -8,7 +8,7 @@ import (
 func (r *repository) Count(ctx echo.Context) (int64, error) {
 	var count int64
 
-	err := r.resource.DB.Model(&dao.Node{}).Count(&count).Error
+	err := r.resource.DB.Model(&dao.Node{}).Where("is_deleted = ?", false).Count(&count).Error
 	if err != nil {
 		return 0, err
 	}
