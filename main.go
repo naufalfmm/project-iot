@@ -36,6 +36,9 @@ import (
 	userServ "github.com/naufalfmm/project-iot/domain/user/service"
 	userHandler "github.com/naufalfmm/project-iot/handlers/user"
 	userCont "github.com/naufalfmm/project-iot/http/user"
+
+	authHandler "github.com/naufalfmm/project-iot/handlers/auth"
+	authCont "github.com/naufalfmm/project-iot/http/auth"
 )
 
 func main() {
@@ -107,6 +110,12 @@ func main() {
 		Resource: resource,
 	}
 
+	authHandNew, _ := authHandler.NewHandler(domain, resource)
+	authController := authCont.Controller{
+		Auth:     authHandNew,
+		Resource: resource,
+	}
+
 	userHandNew, _ := userHandler.NewHandler(domain, resource)
 	userController := userCont.Controller{
 		User:     userHandNew,
@@ -118,6 +127,7 @@ func main() {
 		Node:       nodeController,
 		User:       userController,
 		NodeSensor: nodeSensorController,
+		Auth:       authController,
 	}
 
 	routes := httpRest.Routes{
