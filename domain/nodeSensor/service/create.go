@@ -1,8 +1,6 @@
 package service
 
 import (
-	"github.com/naufalfmm/project-iot/common/consts"
-
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/model/dao"
 	nodeSensorDTO "github.com/naufalfmm/project-iot/model/dto/nodeSensor"
@@ -16,10 +14,7 @@ func (s *service) Create(ctx echo.Context, create nodeSensorDTO.CreateDTO) (dao.
 		return dao.NodeSensor{}, err
 	}
 
-	groupTh, err = s.getGroupTh(groups, create.GroupLabel)
-	if err != nil {
-		return dao.NodeSensor{}, err
-	}
+	groupTh = s.getGroupTh(groups, create.GroupLabel)
 
 	newSensor := dao.NewSensorFromCreateDTO(create, groupTh)
 
@@ -31,12 +26,12 @@ func (s *service) Create(ctx echo.Context, create nodeSensorDTO.CreateDTO) (dao.
 	return newSensor, nil
 }
 
-func (s *service) getGroupTh(groupsList dao.GroupSensors, groupLabel string) (uint32, error) {
+func (s *service) getGroupTh(groupsList dao.GroupSensors, groupLabel string) uint32 {
 	for _, gr := range groupsList {
 		if gr.GroupLabel == groupLabel {
-			return gr.GroupTh, nil
+			return gr.GroupTh
 		}
 	}
 
-	return 0, consts.GroupLabelNotFoundErr
+	return uint32(len(groupsList))
 }
