@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/naufalfmm/project-iot/handlers/node"
+	"github.com/naufalfmm/project-iot/handlers/nodeSensor"
 	"github.com/naufalfmm/project-iot/handlers/sensorData"
 	"github.com/naufalfmm/project-iot/handlers/user"
 )
@@ -11,5 +12,6 @@ type (
 		SensorData sensorData.Handler
 		Node       node.Handler
 		User       user.Handler
+		NodeSensor nodeSensor.Handler
 	}
 )

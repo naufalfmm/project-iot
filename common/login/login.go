@@ -23,6 +23,16 @@ type ClientJWTDTO struct {
 	Username string `json:"username"`
 }
 
+func GetCurrentLogin(ctx echo.Context) (ClientJWTDTO, error) {
+	loginDTO, ok := ctx.Get(consts.UserLoginKey).(ClientJWTDTO)
+	if !ok {
+		err := consts.UndefinedLoginDataError
+		return ClientJWTDTO{}, err
+	}
+
+	return loginDTO, nil
+}
+
 func DecodeToken(j jwt.JWT, token string) (ClientJWTDTO, error) {
 	var clientClaims ClientClaims
 

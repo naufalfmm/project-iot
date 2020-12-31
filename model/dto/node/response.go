@@ -5,8 +5,6 @@ import (
 	"time"
 
 	"github.com/naufalfmm/project-iot/common/paging"
-
-	"github.com/naufalfmm/project-iot/model/dto/sensorGroup"
 )
 
 type (
@@ -30,11 +28,6 @@ type (
 		Type      string    `json:"type"`
 		CreatedAt time.Time `json:"created_at"`
 		CreatedBy string    `json:"created_by"`
-	}
-
-	CreateResponseDTO struct {
-		ResponseDTO
-		SensorGroups []sensorGroup.ResponseDTO `json:"sensor_groups"`
 	}
 )
 

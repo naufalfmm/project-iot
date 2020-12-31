@@ -11,3 +11,7 @@ var (
 	UniqueError             error = errors.New("Unique error")
 	NotFoundError           error = errors.New("Not Found")
 )
+
+var (
+	GroupLabelNotFoundErr error = errors.New("Group label not found")
+)

@@ -22,6 +22,9 @@ func (r *Routes) Register(e *echo.Echo) {
 	node.POST("", r.Controllers.Node.Create)
 	node.GET("", r.Controllers.Node.All)
 
+	sensor := e.Group("/sensor", login.EchoMiddleware(r.Resource.Jwt))
+	sensor.POST("", r.Controllers.NodeSensor.Create)
+
 	user := e.Group("/user")
 	user.POST("/signin", r.Controllers.User.SignIn)
 	user.POST("/signup", r.Controllers.User.SignUp)
