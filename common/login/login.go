@@ -1,11 +1,7 @@
 package login
 
 import (
-	"net/http"
-	"strings"
 	"time"
-
-	"github.com/naufalfmm/project-iot/common/defaultResp"
 
 	jwtGo "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
@@ -56,28 +52,4 @@ func CreateToken(j jwt.JWT, data ClientJWTDTO, exp time.Duration) (string, error
 	}
 
 	return j.Create(&clientClaims)
-}
-
-func EchoMiddleware(j jwt.JWT) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(ctx echo.Context) error {
-			tokenString := ctx.Request().Header.Get("Authorization")
-
-			tokenString = strings.Replace(tokenString, "Bearer ", "", -1)
-
-			if tokenString == "" {
-				ctx.Set(consts.ResponseCode, http.StatusUnauthorized)
-				return defaultResp.CreateResp(ctx, consts.Unauthorized.Error())
-			}
-
-			clientDTO, err := DecodeToken(j, tokenString)
-			if err != nil {
-				ctx.Set(consts.ResponseCode, http.StatusBadRequest)
-				return defaultResp.CreateResp(ctx, err.Error())
-			}
-
-			ctx.Set(consts.UserLoginKey, clientDTO)
-			return next(ctx)
-		}
-	}
 }
