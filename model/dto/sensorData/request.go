@@ -19,9 +19,9 @@ type (
 
 type (
 	PostFromNodeRequestDTO struct {
-		Token     string    `validate:"required"`
-		Data      []float64 `validate:"required"`
-		Timestamp time.Time `validate:"required"`
+		Token     string          `validate:"required"`
+		Data      map[int]float64 `validate:"required"`
+		Timestamp time.Time       `validate:"required"`
 	}
 )
 

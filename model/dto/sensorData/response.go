@@ -23,7 +23,7 @@ type (
 
 type (
 	PostFromNodeResponseDTO struct {
-		Node nodeDTO.ResponseDTO
-		Data []ResponseDTO
+		Node nodeDTO.ResponseDTO `json:"node"`
+		Data []ResponseDTO       `json:"data"`
 	}
 )

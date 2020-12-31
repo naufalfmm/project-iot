@@ -43,7 +43,7 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 
 	now := time.Now()
 
-	sensorData := []float64{}
+	sensorData := map[int]float64{}
 
 	for k := range qp {
 		if k == "token" {
@@ -55,12 +55,18 @@ func (c *Controller) paramBind(e echo.Context) (sensorDataDTO.PostFromNodeReques
 			return sensorDataDTO.PostFromNodeRequestDTO{}, errors.New("Wrong param key format")
 		}
 
+		strIdx := string(k[len(k)-1])
+		idx, err := strconv.Atoi(strIdx)
+		if err != nil {
+			return sensorDataDTO.PostFromNodeRequestDTO{}, err
+		}
+
 		data, err := strconv.ParseFloat(qp.Get(k), 64)
 		if err != nil {
 			return sensorDataDTO.PostFromNodeRequestDTO{}, err
 		}
 
-		sensorData = append(sensorData, data)
+		sensorData[idx] = data
 	}
 
 	req.Data = sensorData

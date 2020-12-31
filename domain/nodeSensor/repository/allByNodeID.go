@@ -9,9 +9,9 @@ func (r *repository) AllByNodeID(ctx echo.Context, nodeID uint64) (dao.NodeSenso
 	var data dao.NodeSensors
 
 	err := r.resource.DB.
-		Order("th").
 		Order("group_th").
-		Where("node_id = ?", nodeID).
+		Order("created_at").
+		Where("node_id = ? AND is_deleted IS FALSE", nodeID).
 		Find(&data).
 		Error
 	if err != nil {
