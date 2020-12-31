@@ -14,6 +14,7 @@ type (
 		Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, error)
 		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (dao.Nodes, error)
 		Count(ctx echo.Context) (int64, error)
+		GetByID(ctx echo.Context, nodeID uint64) (dao.Node, error)
 	}
 
 	service struct {

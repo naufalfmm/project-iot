@@ -11,6 +11,7 @@ type (
 	Handler interface {
 		Create(ctx echo.Context, createReq nodeDTO.CreateRequestDTO) (nodeDTO.ResponseDTO, error)
 		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (nodeDTO.GetAllResponseDTO, error)
+		GetByID(ctx echo.Context, nodeID uint64) (nodeDTO.GetResponseDTO, error)
 	}
 
 	handler struct {

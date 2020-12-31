@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/naufalfmm/project-iot/common/paging"
+	nodeSensorDTO "github.com/naufalfmm/project-iot/model/dto/nodeSensor"
 )
 
 type (
@@ -28,6 +29,11 @@ type (
 		Type      string    `json:"type"`
 		CreatedAt time.Time `json:"created_at"`
 		CreatedBy string    `json:"created_by"`
+	}
+
+	GetResponseDTO struct {
+		ResponseDTO
+		Sensors []nodeSensorDTO.ResponseDTO `json:"sensors"`
 	}
 )
 

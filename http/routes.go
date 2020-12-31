@@ -21,6 +21,7 @@ func (r *Routes) Register(e *echo.Echo) {
 	node := e.Group("/node", login.EchoMiddleware(r.Resource.Jwt))
 	node.POST("", r.Controllers.Node.Create)
 	node.GET("", r.Controllers.Node.All)
+	node.GET("/:nodeId", r.Controllers.Node.GetByID)
 
 	sensor := e.Group("/sensor", login.EchoMiddleware(r.Resource.Jwt))
 	sensor.POST("", r.Controllers.NodeSensor.Create)

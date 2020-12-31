@@ -13,6 +13,7 @@ type (
 		Create(ctx echo.Context, newNode dao.Node) (dao.Node, error)
 		All(ctx echo.Context, params nodeDTO.AllRequestParamsDTO) (dao.Nodes, error)
 		Count(ctx echo.Context) (int64, error)
+		GetByID(ctx echo.Context, nodeID uint64) (dao.Node, error)
 	}
 
 	repository struct {
