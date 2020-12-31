@@ -27,9 +27,6 @@ import (
 	sensorDataHandler "github.com/naufalfmm/project-iot/handlers/sensorData"
 	sensorDataCont "github.com/naufalfmm/project-iot/http/sensorData"
 
-	nodeSensorRepo "github.com/naufalfmm/project-iot/domain/nodeSensor/repository"
-	nodeSensorServ "github.com/naufalfmm/project-iot/domain/nodeSensor/service"
-
 	nodeRepo "github.com/naufalfmm/project-iot/domain/node/repository"
 	nodeServ "github.com/naufalfmm/project-iot/domain/node/service"
 	nodeHandler "github.com/naufalfmm/project-iot/handlers/node"
