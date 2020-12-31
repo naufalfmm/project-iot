@@ -13,6 +13,7 @@ type (
 	Service interface {
 		AllByNodeID(ctx echo.Context, nodeID uint64) (dao.NodeSensors, error)
 		Create(ctx echo.Context, create nodeSensorDTO.CreateDTO) (dao.NodeSensor, error)
+		ToggleActive(ctx echo.Context, sensorID uint64) error
 	}
 
 	service struct {

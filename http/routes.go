@@ -24,6 +24,7 @@ func (r *Routes) Register(e *echo.Echo) {
 
 	sensor := e.Group("/sensor", login.EchoMiddleware(r.Resource.Jwt))
 	sensor.POST("", r.Controllers.NodeSensor.Create)
+	sensor.PATCH("/:sensorId/toggle-active", r.Controllers.NodeSensor.ToggleActive)
 
 	user := e.Group("/user")
 	user.POST("/signin", r.Controllers.User.SignIn)

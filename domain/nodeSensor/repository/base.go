@@ -10,6 +10,7 @@ type (
 	Repository interface {
 		AllByNodeID(ctx echo.Context, nodeID uint64) (dao.NodeSensors, error)
 		Create(ctx echo.Context, newSensor dao.NodeSensor) (dao.NodeSensor, error)
+		ToggleActive(ctx echo.Context, sensorID uint64) (int64, error)
 	}
 
 	repository struct {

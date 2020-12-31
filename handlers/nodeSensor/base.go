@@ -10,6 +10,7 @@ import (
 type (
 	Handler interface {
 		Create(ctx echo.Context, req nodeSensorDTO.CreateRequestDTO) (nodeSensorDTO.ResponseDTO, error)
+		ToggleActive(ctx echo.Context, sensorID uint64) error
 	}
 
 	handler struct {
