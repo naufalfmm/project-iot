@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -19,7 +20,12 @@ func (h *handler) SignUp(ctx echo.Context, req userDTO.SignUpRequestDTO) (userDT
 
 	newUser, err := h.domain.User.Create(ctx, create)
 	if err != nil {
-		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
+		statusCode := http.StatusInternalServerError
+		if errors.Is(err, consts.UniqueError) {
+			statusCode = http.StatusConflict
+		}
+
+		ctx.Set(consts.ResponseCode, statusCode)
 		return userDTO.TokenResponseDTO{}, err
 	}
 

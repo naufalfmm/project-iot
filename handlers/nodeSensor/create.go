@@ -1,6 +1,7 @@
 package nodeSensor
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/naufalfmm/project-iot/common/consts"
@@ -15,7 +16,12 @@ func (h *handler) Create(ctx echo.Context, req nodeSensorDTO.CreateRequestDTO) (
 
 	newSensor, err := h.domain.NodeSensor.Create(ctx, newSensorDTO)
 	if err != nil {
-		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
+		statusCode := http.StatusInternalServerError
+		if errors.Is(err, consts.UniqueError) {
+			statusCode = http.StatusConflict
+		}
+
+		ctx.Set(consts.ResponseCode, statusCode)
 		return nodeSensorDTO.ResponseDTO{}, err
 	}
 

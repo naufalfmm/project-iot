@@ -19,9 +19,9 @@ func (s *service) Create(ctx echo.Context, create nodeDTO.CreateDTO) (dao.Node, 
 				pqErr := err.(*pgconn.PgError)
 				if pqErr.Code == "23505" {
 					return dao.Node{}, consts.UniqueError
-				} else {
-					return dao.Node{}, err
 				}
+
+				return dao.Node{}, err
 			}
 		default:
 			{
