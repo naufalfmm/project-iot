@@ -7,15 +7,15 @@ import (
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 )
 
-func (s *service) SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (dao.User, error) {
-	hashedPass, err := password.Hash(signUpData.Password)
+func (s *service) Create(ctx echo.Context, create userDTO.CreateDTO) (dao.User, error) {
+	hashedPass, err := password.Hash(create.Password)
 	if err != nil {
 		return dao.User{}, err
 	}
 
-	signUpData.Password = hashedPass
+	create.Password = hashedPass
 
-	newUser := dao.NewUserFromSignUpRequestDTO(signUpData)
+	newUser := dao.NewUserFromCreateDTO(create)
 
 	newUser, err = s.repository.Create(ctx, newUser)
 	if err != nil {

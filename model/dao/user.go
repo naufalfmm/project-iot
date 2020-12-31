@@ -8,11 +8,13 @@ import (
 
 type (
 	User struct {
-		ID        uint64     `gorm:"primaryKey;autoIncrement"`
-		Username  string     `gorm:"not null"`
-		Password  string     `gorm:"not null"`
-		CreatedAt time.Time  `gorm:"not null"`
-		UpdatedAt *time.Time `gorm:"not null"`
+		ID        uint64    `gorm:"primaryKey;autoIncrement"`
+		Username  string    `gorm:"not null"`
+		Password  string    `gorm:"not null"`
+		CreatedAt time.Time `gorm:"not null"`
+		CreatedBy string    `gorm:"not null"`
+		UpdatedAt *time.Time
+		UpdatedBy *string
 	}
 )
 
@@ -21,40 +23,28 @@ func (User) TableName() string {
 }
 
 func (u User) ToResponseDTO() userDTO.ResponseDTO {
-	return userDTO.ResponseDTO(u)
-}
-
-func (u User) ToSignUpResponseDTO() userDTO.SignUpResponseDTO {
-	return userDTO.SignUpResponseDTO{
+	return userDTO.ResponseDTO{
 		ID:        u.ID,
 		Username:  u.Username,
 		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
+		CreatedBy: u.CreatedBy,
 	}
 }
 
-func (u User) ToSignInResponseDTO() userDTO.SignInResponseDTO {
-	return userDTO.SignInResponseDTO{
-		ID:        u.ID,
-		Username:  u.Username,
-		CreatedAt: u.CreatedAt,
-		UpdatedAt: u.UpdatedAt,
-	}
-}
-
-func (u User) ToSignInTokenResponseDTO(token string) userDTO.SignInTokenResponseDTO {
-	return userDTO.SignInTokenResponseDTO{
+func (u User) ToTokenResponseDTO(token string) userDTO.TokenResponseDTO {
+	return userDTO.TokenResponseDTO{
 		Token: token,
-		User:  u.ToSignInResponseDTO(),
+		User:  u.ToResponseDTO(),
 	}
 }
 
-func NewUserFromSignUpRequestDTO(sur userDTO.SignUpRequestDTO) User {
+func NewUserFromCreateDTO(sur userDTO.CreateDTO) User {
 	now := time.Now()
 
 	return User{
 		Username:  sur.Username,
 		Password:  sur.Password,
 		CreatedAt: now,
+		CreatedBy: sur.By,
 	}
 }

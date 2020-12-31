@@ -10,7 +10,7 @@ import (
 
 type (
 	Service interface {
-		SignUp(ctx echo.Context, signUpData userDTO.SignUpRequestDTO) (dao.User, error)
+		Create(ctx echo.Context, create userDTO.CreateDTO) (dao.User, error)
 		GetByUsername(ctx echo.Context, username string) (dao.User, error)
 	}
 

@@ -13,7 +13,7 @@ import (
 	userDTO "github.com/naufalfmm/project-iot/model/dto/user"
 )
 
-func (h *handler) SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.SignInTokenResponseDTO, error) {
+func (h *handler) SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.TokenResponseDTO, error) {
 	userData, err := h.domain.User.GetByUsername(ctx, req.Username)
 	if err != nil {
 		statusCode := http.StatusInternalServerError
@@ -22,18 +22,18 @@ func (h *handler) SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDT
 		}
 
 		ctx.Set(consts.ResponseCode, statusCode)
-		return userDTO.SignInTokenResponseDTO{}, err
+		return userDTO.TokenResponseDTO{}, err
 	}
 
-	valid, err := password.Verify(userData.Password, signInData.Password)
+	valid, err := password.Verify(userData.Password, req.Password)
 	if err != nil {
 		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
-		return userDTO.SignInTokenResponseDTO{}, err
+		return userDTO.TokenResponseDTO{}, err
 	}
 
 	if !valid {
 		ctx.Set(consts.ResponseCode, http.StatusUnauthorized)
-		return userDTO.SignInTokenResponseDTO{}, consts.Unauthorized
+		return userDTO.TokenResponseDTO{}, consts.Unauthorized
 	}
 
 	loginData := login.ClientJWTDTO{
@@ -44,8 +44,8 @@ func (h *handler) SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDT
 	jwtToken, err := login.CreateToken(h.resource.Jwt, loginData, h.resource.Config.JwtExpiresInDuration)
 	if err != nil {
 		ctx.Set(consts.ResponseCode, http.StatusInternalServerError)
-		return userDTO.SignInTokenResponseDTO{}, err
+		return userDTO.TokenResponseDTO{}, err
 	}
 
-	return userData.ToSignInTokenResponseDTO(jwtToken), nil
+	return userData.ToTokenResponseDTO(jwtToken), nil
 }

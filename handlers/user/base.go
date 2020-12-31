@@ -9,8 +9,8 @@ import (
 
 type (
 	Handler interface {
-		SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.SignInTokenResponseDTO, error)
-		SignUp(ctx echo.Context, req userDTO.SignUpRequestDTO) (userDTO.SignUpTokenResponseDTO, error)
+		SignIn(ctx echo.Context, req userDTO.SignInRequestDTO) (userDTO.TokenResponseDTO, error)
+		SignUp(ctx echo.Context, req userDTO.SignUpRequestDTO) (userDTO.TokenResponseDTO, error)
 	}
 	handler struct {
 		domain   domain.Domain

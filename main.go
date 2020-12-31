@@ -13,6 +13,15 @@ import (
 	"github.com/naufalfmm/project-iot/resource/validator"
 	vv9 "gopkg.in/go-playground/validator.v9"
 
+	groupSensorRepo "github.com/naufalfmm/project-iot/domain/nodeSensor/subdomain/groupSensor/repository"
+	groupSensorServ "github.com/naufalfmm/project-iot/domain/nodeSensor/subdomain/groupSensor/service"
+
+	nodeSensorRepo "github.com/naufalfmm/project-iot/domain/nodeSensor/repository"
+	nodeSensorServ "github.com/naufalfmm/project-iot/domain/nodeSensor/service"
+	nodeSensorSubdomain "github.com/naufalfmm/project-iot/domain/nodeSensor/subdomain"
+	nodeSensorHandler "github.com/naufalfmm/project-iot/handlers/nodeSensor"
+	nodeSensorCont "github.com/naufalfmm/project-iot/http/nodeSensor"
+
 	sensorDataRepo "github.com/naufalfmm/project-iot/domain/sensorData/repository"
 	sensorDataServ "github.com/naufalfmm/project-iot/domain/sensorData/service"
 	sensorDataHandler "github.com/naufalfmm/project-iot/handlers/sensorData"
@@ -57,11 +66,18 @@ func main() {
 
 	resource := resource.New(conf, db, jwt, &validator)
 
-	sensorDataRepoNew, _ := sensorDataRepo.New(resource)
-	sensorDataServNew, _ := sensorDataServ.New(resource, sensorDataRepoNew)
+	groupSensorRepoNew, _ := groupSensorRepo.New(resource)
+	groupSensorServNew, _ := groupSensorServ.New(resource, groupSensorRepoNew)
+
+	nodeSensorSubdomainNew := nodeSensorSubdomain.Subdomain{
+		GroupSensor: groupSensorServNew,
+	}
 
 	nodeSensorRepoNew, _ := nodeSensorRepo.New(resource)
-	nodeSensorServNew, _ := nodeSensorServ.New(resource, nodeSensorRepoNew)
+	nodeSensorServNew, _ := nodeSensorServ.New(resource, nodeSensorRepoNew, nodeSensorSubdomainNew)
+
+	sensorDataRepoNew, _ := sensorDataRepo.New(resource)
+	sensorDataServNew, _ := sensorDataServ.New(resource, sensorDataRepoNew)
 
 	nodeRepoNew, _ := nodeRepo.New(resource)
 	nodeServNew, _ := nodeServ.New(resource, nodeRepoNew)
@@ -72,13 +88,19 @@ func main() {
 	domain := domain.Domain{
 		Node:       nodeServNew,
 		SensorData: sensorDataServNew,
-		nodeSensor: nodeSensorServNew,
+		NodeSensor: nodeSensorServNew,
 		User:       userServNew,
 	}
 
 	sensorDataHandNew, _ := sensorDataHandler.NewHandler(domain, resource)
 	sensorDataController := sensorDataCont.Controller{
 		SensorData: sensorDataHandNew,
+		Resource:   resource,
+	}
+
+	nodeSensorHandNew, _ := nodeSensorHandler.NewHandler(domain, resource)
+	nodeSensorController := nodeSensorCont.Controller{
+		NodeSensor: nodeSensorHandNew,
 		Resource:   resource,
 	}
 
@@ -98,6 +120,7 @@ func main() {
 		SensorData: sensorDataController,
 		Node:       nodeController,
 		User:       userController,
+		NodeSensor: nodeSensorController,
 	}
 
 	routes := httpRest.Routes{
