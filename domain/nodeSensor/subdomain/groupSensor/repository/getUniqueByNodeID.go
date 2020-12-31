@@ -10,7 +10,7 @@ func (r *repository) GetUniqueByNodeID(ctx echo.Context, nodeID uint64) (dao.Gro
 
 	err := r.resource.DB.
 		Where("node_id = ?", nodeID).
-		Distinct("group_th").
+		Select("DISTINCT ON(group_th) group_th, group_label, node_id").
 		Find(&groups).
 		Error
 	if err != nil {

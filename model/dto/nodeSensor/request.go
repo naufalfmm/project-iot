@@ -16,7 +16,7 @@ type (
 
 type (
 	CreateRequestBodyDTO struct {
-		Code        string `json:"code" validate:"required"`
+		Code        string `json:"code"`
 		Description string `json:"description"`
 		Category    string `json:"category" validate:"required"`
 		Unit        string `json:"unit"`

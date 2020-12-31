@@ -6,7 +6,6 @@ import (
 
 	"github.com/naufalfmm/project-iot/common/consts"
 
-	"github.com/naufalfmm/project-iot/common/word"
 	"gorm.io/gorm"
 
 	nodeSensorDTO "github.com/naufalfmm/project-iot/model/dto/nodeSensor"
@@ -30,7 +29,7 @@ func (NodeSensor) TableName() string {
 
 func (ns *NodeSensor) BeforeCreate(tx *gorm.DB) error {
 	if ns.Code == "" {
-		ns.Code = fmt.Sprintf("%d-%s-%s", ns.NodeID, word.FirstLetterWord(ns.GroupLabel), ns.Category)
+		ns.Code = fmt.Sprintf("%d-%d-%s", ns.NodeID, ns.GroupTh, ns.Category)
 	}
 
 	if ns.Unit == "" {
