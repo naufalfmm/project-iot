@@ -1,4 +1,4 @@
 .env
 key/**
 .vscode/**
-test.go
+test*.go
