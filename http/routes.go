@@ -17,6 +17,7 @@ type (
 func (r *Routes) Register(e *echo.Echo) {
 	sensorData := e.Group("/sensor-data")
 	sensorData.GET("/post", r.Controllers.SensorData.CreateFromNode)
+	sensorData.GET("", r.Controllers.SensorData.All, verifyToken.EchoMiddleware(r.Controllers.Auth.Auth))
 
 	node := e.Group("/node", verifyToken.EchoMiddleware(r.Controllers.Auth.Auth))
 	node.POST("", r.Controllers.Node.Create)

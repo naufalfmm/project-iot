@@ -18,3 +18,13 @@ func NewFromCreatesDTO(ss []sensorDataDTO.CreateDTO) SensorDataList {
 
 	return sdlData
 }
+
+func (sdl SensorDataList) ToResponsesDTO() []sensorDataDTO.ResponseDTO {
+	respDTO := make([]sensorDataDTO.ResponseDTO, sdl.Len())
+
+	for i := 0; i < sdl.Len(); i++ {
+		respDTO[i] = sdl[i].ToResponseDTO()
+	}
+
+	return respDTO
+}

@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/naufalfmm/project-iot/common/utils"
 	"github.com/naufalfmm/project-iot/model/dao"
+	sensorDataDTO "github.com/naufalfmm/project-iot/model/dto/sensorData"
 	"github.com/naufalfmm/project-iot/resource"
 )
 
@@ -11,6 +12,7 @@ type (
 	Repository interface {
 		Insert(ctx echo.Context, insertedData dao.SensorData) (dao.SensorData, error)
 		BulkInsert(ctx echo.Context, insertedDataList dao.SensorDataList) (dao.SensorDataList, error)
+		AllNext(ctx echo.Context, params sensorDataDTO.AllRequestParamsDTO) (bool, dao.SensorDataList, error)
 	}
 
 	repository struct {

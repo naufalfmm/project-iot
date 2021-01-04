@@ -10,6 +10,7 @@ import (
 type (
 	Handler interface {
 		PostFromNode(e echo.Context, req sensorDataDTO.PostFromNodeRequestDTO) (sensorDataDTO.PostFromNodeResponseDTO, error)
+		All(ctx echo.Context, params sensorDataDTO.AllRequestParamsDTO) (sensorDataDTO.GetAllResponseDTO, error)
 	}
 	handler struct {
 		domain   domain.Domain

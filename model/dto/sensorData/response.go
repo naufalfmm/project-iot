@@ -3,7 +3,21 @@ package sensorData
 import (
 	"time"
 
+	"github.com/naufalfmm/project-iot/common/paging"
 	nodeDTO "github.com/naufalfmm/project-iot/model/dto/node"
+)
+
+type (
+	TimestampResponseParamDTO struct {
+		Min *time.Time `json:"min,omitempty"`
+		Max *time.Time `json:"max,omitempty"`
+	}
+
+	AllResponseParamsDTO struct {
+		paging.PagingRequest
+		Timestamp *TimestampResponseParamDTO `json:"timestamp,omitempty"`
+		NodeID    *uint64                    `json:"node_id,omitempty"`
+	}
 )
 
 type (
@@ -27,3 +41,21 @@ type (
 		Data []ResponseDTO       `json:"data"`
 	}
 )
+
+type (
+	GetAllResponseDTO struct {
+		Next   bool                 `json:"next"`
+		Count  int                  `json:"count"`
+		Params AllResponseParamsDTO `json:"params"`
+		Items  []ResponseDTO        `json:"items"`
+	}
+)
+
+func NewGetAllResponseDTO(params AllRequestParamsDTO, items []ResponseDTO, next bool) GetAllResponseDTO {
+	return GetAllResponseDTO{
+		Next:   next,
+		Count:  len(items),
+		Params: params.ToAllResponseParamsDTO(),
+		Items:  items,
+	}
+}
