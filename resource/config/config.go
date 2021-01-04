@@ -20,19 +20,6 @@ type EnvConfig struct {
 	PostgresLogMode           bool          `envconfig:"POSTGRES_LOG_MODE" default:"false"`
 	PostgresLogColorful       bool          `envconfig:"POSTGRES_LOG_COLORFUL" default:"false"`
 
-	RedisHost         string        `envconfig:"REDIS_HOST" default:"127.0.0.1" required:"true"`
-	RedisPort         string        `envconfig:"REDIS_PORT" default:"6379" required:"true"`
-	RedisPassword     string        `envconfig:"REDIS_PASSWORD" required:"true"`
-	RedisPoolSize     int           `envconfig:"REDIS_POOL_SIZE" default:"100" required:"true"`
-	RedisPoolTimeout  time.Duration `envconfig:"REDIS_POOL_TIMEOUT" default:"10s" required:"true"`
-	RedisWriteTimeout time.Duration `envconfig:"REDIS_WRITE_TIMEOUT" default:"3s" required:"true"`
-	RedisReadTimeout  time.Duration `envconfig:"REDIS_READ_TIMEOUT" default:"1s" required:"true"`
-	RedisDialTimeout  time.Duration `envconfig:"REDIS_DIAL_TIMEOUT" default:"1s" required:"true"`
-	RedisMinIdleConns int           `envconfig:"REDIS_MIN_IDLE_CONNS" default:"10" required:"true"`
-	RedisMaxConnAge   time.Duration `envconfig:"REDIS_MAX_CONN_AGE" default:"3m" required:"true"`
-
-	CacheExpiration time.Duration `envconfig:"CACHE_EXPIRATION" default:"10m"`
-
 	JwtPrivateKey        string        `envconfig:"JWT_PRIVATE_KEY" required:"true"`
 	JwtPublicKey         string        `envconfig:"JWT_PUBLIC_KEY" required:"true"`
 	JwtExpiresInDuration time.Duration `envconfig:"JWT_EXPIRES_IN_DURATION" default:"5d" required:"true"`
