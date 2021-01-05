@@ -69,16 +69,14 @@ func getTimestampFilter(ctx echo.Context) (*time.Time, *time.Time) {
 }
 
 func (arp AllRequestParamsDTO) WhereQuery(orm *gorm.DB) *gorm.DB {
-	if arp.TimestampMin != nil && arp.TimestampMax != nil {
-		orm = orm.Where("timestamp >= ? AND timestamp <= ?", *arp.TimestampMin, *arp.TimestampMax)
+	if arp.TimestampMin != nil {
+		tmin := *arp.TimestampMin
+		orm = orm.Where("timestamp >= ?::TIMESTAMP WITH TIME ZONE", tmin.Format("2006-01-02 15:04:05-07"))
 	}
 
-	if arp.TimestampMin == nil && arp.TimestampMax != nil {
-		orm = orm.Where("timestamp <= ?", *arp.TimestampMax)
-	}
-
-	if arp.TimestampMax == nil && arp.TimestampMin != nil {
-		orm = orm.Where("timestamp >= ?", *arp.TimestampMin)
+	if arp.TimestampMax != nil {
+		tmax := *arp.TimestampMax
+		orm = orm.Where("timestamp <= ?::TIMESTAMP WITH TIME ZONE", tmax.Format("2006-01-02 15:04:05-07"))
 	}
 
 	if arp.NodeID != nil {

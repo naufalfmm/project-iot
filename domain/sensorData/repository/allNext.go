@@ -26,7 +26,6 @@ func (r *repository) AllNext(ctx echo.Context, params sensorDataDTO.AllRequestPa
 	}
 
 	err := orm.
-		Order("timestamp DESC").
 		Limit(limit).
 		Offset(offset).
 		Find(&results).Error
