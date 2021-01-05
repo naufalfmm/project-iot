@@ -51,6 +51,7 @@ func NewSensorFromCreateDTO(c nodeSensorDTO.CreateDTO, groupTh uint32) NodeSenso
 		GroupLabel:  c.GroupLabel,
 		GroupTh:     groupTh,
 		NodeID:      c.NodeID,
+		IsActive:    true,
 		BaseModelSoftDeleted: BaseModelSoftDeleted{
 			CreatedAt: now,
 			CreatedBy: c.By,
