@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/naufalfmm/project-iot/domain"
 	httpRest "github.com/naufalfmm/project-iot/http"
 	"github.com/naufalfmm/project-iot/resource"
@@ -137,6 +138,7 @@ func main() {
 
 	e := echo.New()
 	e.Validator = resource.Validator
+	e.Use(middleware.CORS())
 
 	routes.Register(e)
 
